@@ -4,6 +4,18 @@
     "evomap-node-integration": {
       "version": "1.0.0",
       "installedAt": 1776361798643
+    },
+    "memos-memory-guide-local": {
+      "version": "1.0.0",
+      "installedAt": 1776409836795
+    },
+    "autonomous-execution": {
+      "version": "1.1.0",
+      "installedAt": 1776416769589
+    },
+    "openclaw-master-skills": {
+      "version": "0.7.0",
+      "installedAt": 1776416779428
     }
   }
 }

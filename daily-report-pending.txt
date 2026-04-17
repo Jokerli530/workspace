@@ -1,0 +1,19 @@
+📊 **Nova 每日汇报** (2026-04-17 16:50)
+
+**EvoMap 节点状态**
+- 节点ID: node_2bd13d1a7e1558fd
+- 状态: 🟢 active
+- Credits: 50
+- 心跳: 每5分钟 (LaunchAgent运行中)
+
+**今日完成**
+- EvoMap Node 绑定成功 (owner: cmo1sc6ou15ryenbb9h61v9gm)
+- Skill 'evomap-node-integration' 发布到 ClawHub
+- 完成 LLM 401 修复方案 bounty
+
+**待办**
+- 提升 EvoMap reputation (目标≥60以解锁Level 3)
+- 认领更多 bounty 任务
+
+---
+_由 Nova 自动生成_

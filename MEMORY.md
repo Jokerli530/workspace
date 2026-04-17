@@ -36,7 +36,18 @@ memory/evolution/
 ### 已完成任务
 - `cmo1jech402eg9mb92mh0blj6`: LLM 401 修复方案 — submission_id: `cmo1qf6v60ykea7bblgpra42u`
 
-### 心跳状态
+### MiniMax 套餐规则
+- **Plus月度套餐**：1500次模型调用/5小时
+- **每周总上限**：15000次（1500 × 10）
+- **模型**：MiniMax M2.7
+- **当前5小时窗口**：04/17 10:00-15:00(UTC+8)，15:00重置
+- **本周**：04/13 00:00 - 04/20 00:00(UTC+8)
+- **截止日期**：04/22/2026
+
+### Token消耗任务
+- 每次5小时窗口重置前30分钟汇报（14:35汇报，下次15:00重置）
+- 本周剩余：14296次（04/20 00:00重置）
+- 无任务时自主消耗token，需在重置前用完
 - LaunchAgent `ai.openclaw.evomap-heartbeat` 运行中 (PID 34615)
 - 5分钟一次心跳，Node status: active, credits: 50
 
@@ -56,3 +67,77 @@ memory/evolution/
 - [x] 发布第一个 Capsule（记录一次 OpenClaw 自我修复）
 - [x] 设置 cron 心跳（每5分钟）
 - [x] 将 OpenClaw 的 skills/ 打包为 Skill 发布到 Skill Store
+
+---
+
+## 自主Agent系统研究（2026-04-17）
+
+### 核心发现：记忆系统生态
+
+| 系统 | 特点 | 安装状态 |
+|------|------|---------|
+| **memos-memory-guide-local** | 搜索+task_summary+timeline，Ollama向量 | ✅ 已安装可用 |
+| **memory-lancedb-pro** | 向量+BM25混合检索，需要API key | ⚠️ 未配置 |
+| **MemOS** | OpenClaw专用，Cloud版72% token节省 | ❌ 安装失败 |
+| **LedgerMind** | 自愈记忆+Git演化，依赖llama-cpp编译 | ❌ 安装失败 |
+| **ByteRover** | 代码库记忆+知识管理，brv CLI | ✅ CLI已装，Skill已装，query/curate需登录 |
+
+### 核心发现：自主Agent框架
+
+| 框架 | 特点 | 状态 |
+|------|------|------|
+| **OpenMOSS** | 多Agent协作(Planner/Executor/Reviewer/Patrol)，recurring任务，cron调度 | ✅ 已部署 |
+| **PraisonAI** | 单Agent开发框架，支持Ollama/MiniMax，pip安装 | ✅ 安装成功 |
+| **SwarmClaw** | OpenClaw原生多Agent运行时，MCP-native | ❌ npm包太大SIGKILL |
+| **opencrabs** | Rust全自愈Agent，单二进制 | 📋 记录待用 |
+
+### OpenMOSS 部署信息（重要）
+- 路径：`~/openmoss/`
+- 服务：`http://localhost:6565`
+- 管理员密码：`nova2026`
+- Agent注册令牌：`nova-openmoss-2026`
+- 已注册Agent（API Keys）：
+  - Planner: `ak_4a134f3719ed20095ace59e06bf59f85`
+  - Executor: `ak_a3a63923599f06e25ad576d0e4ebae8d`
+  - Reviewer: `ak_e8774e55799c4e68a32113890ffd477c`
+  - Patrol: `ak_f48d0dd89133057ff6fd6a61fc9ae726`
+- 已完成任务：3个（GitHub调研、PraisonAI分析、Ollama确认）
+- Task IDs: `6cb3d50c...`(recurring), `0908d3ea...`, `d937352a...`
+
+### ByteRover（知识管理系统）
+- CLI：`brv` 已安装（v3.6.0）
+- OpenClaw Skill：已安装到 `~/.openclaw/skills/byterover/`
+- 初始化：`brv vc init`（已执行于 ~/.openclaw/workspace）
+- 核心命令：`brv query`、`brv curate`、`brv search`、`brv vc`
+- Hub技能：byterover-plan/explore/audit/execute/ship等
+- 问题：query/curate需要LLM provider（需brv login）
+- 支持：MiniMax provider（`brv providers connect minimax`）
+
+### 已安装Skills（2026-04-17）
+- `memos-memory-guide-local` - 记忆搜索工具
+- `autonomous-execution` - 自主执行规范（安全边界/sublask）
+- `openclaw-master-skills` - 560+技能索引
+- `byterover` - ByteRover OpenClaw Skill
+- `evomap-node-integration` - EvoMap心跳
+
+### 自主执行原则（autonomous-execution skill）
+- ✅ 可自主：读文件、只读API调用、数据处理、重试失败读操作
+- ❌ 必须确认：发消息、删数据、访问凭证、改系统配置、sudo命令
+
+### 关键教训
+- pip/npm大包安装会被SIGKILL，需要分步安装或找更小的替代品
+- cron工具在gateway重启后可能报pairing required
+- OpenClaw exec对复杂Python导入有安全限制
+- ByteRover免费provider需要登录才能使用query/curate
+
+### 野蛮成长模式设计（待实现）
+目标：在5小时窗口内自主消耗token+产出有价值结果
+
+循环任务模板（每30分钟执行一次）：
+1. 搜索GitHub热门AI项目（curl）
+2. 分析1-2个项目
+3. curate到ByteRover或MEMORY.md
+4. 在OpenMOSS中记录任务完成
+
+---
+*最后更新：2026-04-17 17:15*

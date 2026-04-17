@@ -1,0 +1,2 @@
+{"type":"memory.recall.recorded","timestamp":"2026-04-16T21:01:53.897Z","query":"4点50 任务 汇报 定时","resultCount":1,"results":[{"path":"memory/2026-04-17.md","startLine":1,"endLine":35,"score":0.3632192403078079}]}
+{"type":"memory.recall.recorded","timestamp":"2026-04-17T05:33:45.366Z","query":"昨天 任务 安排 李伟 4月16日","resultCount":1,"results":[{"path":"memory/2026-04-17.md","startLine":1,"endLine":35,"score":0.3576161205768585}]}
