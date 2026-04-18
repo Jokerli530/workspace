@@ -214,3 +214,52 @@ memory/evolution/
 
 ---
 *最后更新：2026-04-18 13:00*
+
+## 2026-04-18 下午第二波（13:00-13:20）
+
+### 新发现框架
+
+**weft (WeaveMindAI/weft) 781 stars**
+- AI系统专用编程语言，3天前创建冲到781 stars
+- 核心理念: LLM/Human/API/Infrastructure是语言内置base ingredients
+- Typed graph: 编译器在运行前捕获架构问题（类似Rust的内存安全）
+- Durable execution via Restate: 程序穿越崩溃重启，人类审批3天 vs 3秒代码一样
+- First-class humans: 程序中间可暂停，等人类回复再从断点恢复
+- Recursively foldable: 100个节点系统顶层只有5个block
+- vs LangChain: 编程语言 vs 库/框架，类似C vs 汇编
+
+**WebFurl (WeaveMindAI/WebFurl) 50 stars**
+- 浏览器Agent token效率革命：200k tokens HTML → 20-50 token语义树
+- 递归可压缩语义表示，可以展开任意分支
+- 跨用户缓存：静态内容全球共享压缩结果
+- 查询驱动展开：基于embedding自动展开相关节点
+- vs browser-use (88k stars): 传统方案 vs 压缩高效方案
+
+**PraisonAI 6952 stars**
+- 5行代码部署 autonomous agents，内置memory/RAG，支持100+ LLMs
+- 明确支持OpenClaw (topics含claw/openclaw)
+- OpenClaw + PraisonAI 可结合使用
+
+**browser-use 88334 stars**
+- 主流浏览器自动化方案（Playwright + Python）
+- 竞品：WebFurl（更高效但更早期）
+
+**dify 138180 stars**
+- 生产级 agentic workflow 开发平台
+- Low-code/no-code，支持 MCP/RAG
+- 最大开源 AI workflow 平台
+
+### 竞争格局最终更新
+- 浏览器自动化：browser-use(88k) vs WebFurl(50) - 主流 vs 高效
+- 编程语言：weft(Rust) - 新物种，AI系统专用
+- Agent框架：PraisonAI(6.9k) + OpenClaw 生态
+- Workflow平台：dify(138k) vs langflow(147k) - 最大体量
+
+### 今日产出汇总
+- ByteRover curate: 10+ entries审核通过
+- 框架: weft/WebFurl/PraisonAI/dify/browser-use深入研究
+- 重大发现: MemPalace/graphify/weft/WebFurl
+- 代理问题: 完全解决，curl加-x参数
+
+---
+*最后更新：2026-04-18 13:20*
