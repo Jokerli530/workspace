@@ -16,6 +16,10 @@
     "openclaw-master-skills": {
       "version": "0.7.0",
       "installedAt": 1776416779428
+    },
+    "star-office-deploy": {
+      "version": "1.0.0",
+      "installedAt": 1776492356493
     }
   }
 }

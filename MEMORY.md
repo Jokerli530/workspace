@@ -289,3 +289,38 @@ Task Created (planning)
 
 ---
 *最后更新：2026-04-18 13:28*
+
+## 2026-04-18 下午第三波（14:00-14:15）
+
+### Star Office UI 部署成功!
+- URL: http://127.0.0.1:19000
+- OpenClaw专用像素办公室状态看板
+- 状态: researching (正在调研GitHub热门AI项目)
+- yesterday-memo功能: 自动从memory/*.md读取昨日工作记录并展示
+- 支持多Agent加入（via join keys）
+- 部署在 ~/.openclaw/workspace/Star-Office-UI/
+
+### 重大发现: Ghost OS (ghostwright/ghost-os)
+- 1357 stars, Swift 6.2, macOS原生AI Agent操作系统
+- Full computer-use: AI能看到并操作Mac上所有App
+- Self-learning recipes: 演示一次，永久学会！
+  - ghost_learn_start/stop 记录用户操作（CGEvent tap + accessibility tree）
+  - 无需截图，无需视觉模型
+  - 合成参数化、可回放的recipe
+- MCP compatible
+- Shadow: 记忆层(14模态捕获+主动建议+本地LLM推理)
+- Specter: 基础设施(90秒部署Agent到VM，自动DNS/TLS/hardening)
+- vs OpenClaw: Ghost OS是macOS原生的全系统Agent控制，OpenClaw是跨平台Agent runtime
+
+### mozilla-ai/cq
+- 1071 stars
+- 开放标准: 共享Agent学习协议
+- Agents能持久化、共享、查询集体知识
+- 不再重复发现相同失败
+
+### OpenMOSS子任务完整cycle再次验证
+- Task: 25eb3392-b292-4832-a4d1-ac28ffd364de (done)
+- 第二次跑通: create → subtask → start(submit) → complete
+
+---
+*最后更新：2026-04-18 14:15*
