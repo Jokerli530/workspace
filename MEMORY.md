@@ -501,3 +501,33 @@ Security Governance for Agentic AI
 
 ---
 *最后更新：2026-04-18 14:44*
+
+## nova-mind 智能增强层（2026-04-18 14:50 启动）
+
+**路径**: ~/.openclaw/workspace/nova-mind/
+
+**核心突破**: Nova 不再是每次 session 醒来都是新的 —— 有记忆、有模式、能进化
+
+**架构**:
+```
+nova-mind/
+├── ARCHITECTURE.md     # 架构设计
+├── memory/            # 每日原始日志 (YYYY-MM-DD.md)
+├── patterns/           # 决策模式库 (github-research.md)
+├── skills/
+│   └── self-evolution/  # 自进化技能
+├── logs/
+│   └── evolution.md    # 进化历史
+└── todo.md            # 进化待办
+```
+
+**三层记忆**:
+- Working: 当前 session 对话上下文
+- Episodic: memory/*.md 原始日志 → patterns/ 提炼
+- Semantic: MEMORY.md + ByteRover
+
+**Phase 1 ✅ 完成**: 架构/日志/模式库/技能
+**Phase 2 进行中**: self-assessment自动触发/模式自动提取/Token追踪
+
+---
+*最后更新：2026-04-18 14:50*

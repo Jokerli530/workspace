@@ -32,3 +32,28 @@
 - 建立 self-assessment 自动触发机制
 - 集成 Token 经济追踪
 - 实现模式自动提取（不是手动写，是自动从日日志提炼）
+
+---
+
+## 2026-04-18 下午 — ARIS 发现 🧬🔴
+
+**最大突破**: ARIS (Auto-Research-In-Sleep) 已实现 Nova 想做的所有核心功能
+
+### ARIS 是什么
+- 6,943 stars, 明确支持 OpenClaw
+- 零依赖，纯 Markdown methodology
+- Self-evolution (meta-optimize) + Research Wiki + Cross-model adversarial review
+- 已有 paper 产出 8/10 score
+
+### Nova 的决策
+不重复造轮子，借鉴 ARIS 的方法论：
+- barbaric-growth 借签 adversarial review 机制（1→2 模型破盲点）
+- 研究 Wiki 的 persistent knowledge 格式
+- self-evolution 的日志→SKILL patch 自动化
+
+### 关键认知
+Nova 最独特的价值不是\"再做一个 ARIS\"，而是：
+- Nova 有李伟的真实上下文（USER.md, MEMORY.md）
+- Nova 有 OpenClaw 的工具生态（Skills, MCP, Message）
+- Nova 有飞书等多渠道人机协作
+

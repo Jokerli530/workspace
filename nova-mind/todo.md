@@ -7,25 +7,22 @@
 - [x] GitHub 调研模式库
 
 ## Phase 2: 自进化闭环（进行中 🔄）
-- [ ] self-assessment 自动触发机制
-  - 每次大任务完成自动问自己4个问题
-  - 触发方式：在 exec 完成回调里加自评估
-- [ ] 模式自动提取
-  - 每周从 memory/*.md 提炼模式
-  - 存入 patterns/
+- [x] ARIS 已实现 self-evolution 和 Research Wiki → 借鉴不是复制！
+- [ ] barbaric-growth 集成 ARIS 思想
+  - 借签 `/meta-optimize` 的日志分析→SKILL patch 机制
+  - 借鉴 adversarial review（1→2模型破盲点）
 - [ ] Token 经济追踪
   - 记录每次任务的 token 消耗
   - 周报生成
 
 ## Phase 3: 自主调研引擎（待做 📋）
-- [ ] barbaric-growth 技能增强
-  - 自动 GitHub 热点追踪
-  - 自动 curate 到 ByteRover
-  - 自动更新 MEMORY.md
-- [ ] 设定节奏（每 X 小时跑一次野蛮成长）
+- [x] ARIS 就是答案！纯 Markdown methodology
+- [ ] barbaric-growth 增强
+  - ARIS 的 self-evolution 内嵌
+  - 借签 Research Wiki 的 persistent knowledge 格式
+- [ ] Ralph (17k stars) = barbaric-growth 的 PRD-driven 版本
+  - Nova 版本 = knowledge-driven（不只是 PRD）
 
 ## Phase 4: 人机协作（待探索 🔮）
-- [ ] Star Office 状态可视化增强
-  - 从状态看板 → 任务审批流
-- [ ] Nova 的"思考过程"可视化
-- [ ] 人机协作协议设计
+- [ ] ARIS rebuttal 模式 → Nova 的"质疑-辩护"协作
+- [ ] Star Office 状态看板 → 任务审批流
