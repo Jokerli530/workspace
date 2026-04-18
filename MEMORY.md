@@ -451,3 +451,53 @@ Security Governance for Agentic AI
 
 ---
 *最后更新：2026-04-18 14:40*
+
+## Next Level Builder 团队深度分析（14:44）
+
+### 组织信息
+**Next Level Builder** (@nextlevelbuilder)
+- 官网: https://nextlevelbuilder.io
+- Twitter: @nlb_io
+- 位置: 越南 (Vietnam)
+- 描述: "From Zero to One Is Always the Hardest Part. We Can Take You There."
+- Discord: Premium Community for Micro SaaS Builders
+- 公开仓库: 10个
+- Followers: 703
+
+### 核心成员
+**Viet Tran** (@viettranx) — 主导开发者
+- GitHub: 70个公开仓库, 754 followers
+- 个人博客: https://200lab.io (越南软件工程学院)
+- 地点: 越南
+- 主要负责GoClaw开发 (1133次commits，贡献最多)
+
+**其他贡献者**:
+- Luvu182 (56 commits)
+- vanducng (29 commits)
+- mrgoonie (27 commits)
+- kaitrannott (24 commits)
+
+### 生态产品矩阵
+| 产品 | Stars | 定位 |
+|------|------|------|
+| ui-ux-pro-max-skill | 67,171 | AI设计Skill |
+| GoClaw | 2,799 | AI Gateway (OpenClaw Go版) |
+| skillx | 102 | AI Agent Skills市场 |
+| goclaw-mcp | 6 | GoClaw MCP服务器 |
+| goclaw-docs | 17 | GoClaw文档 |
+
+### 关键洞察
+1. **GoClaw不是OpenClaw官方项目** - 第三方团队独立开发
+2. **他们举办过OpenClaw 2026 Webinar** (openclaw-event-2026) - 可能是OpenClaw用户出身
+3. **200lab.io** - 越南软件工程师培训平台，Viet Tran创办
+4. **SkillX** vs ClawHub - 类似OpenClaw的Skills市场，但面向GoClaw生态
+5. **License问题** - GoClaw目前是CC BY-NC 4.0 (非商业)，而非MIT
+
+### 竞争威胁评估
+- 团队规模: 小但专注（5人核心）
+- 产品成熟度: 高 (67k stars爆款skill背书)
+- 商业化: 正在从开源向SaaS转型 (有Discord社区)
+- 对OpenClaw威胁: 中高 (功能更强，但依赖OpenClaw生态)
+
+---
+*最后更新：2026-04-18 14:44*
