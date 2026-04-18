@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-17T05:33:45.366Z",
+  "updatedAt": "2026-04-18T04:46:20.415Z",
   "entries": {
     "memory:memory/2026-04-17.md:1:35": {
       "key": "memory:memory/2026-04-17.md:1:35",
@@ -22,6 +22,37 @@
       ],
       "recallDays": [
         "2026-04-17"
+      ],
+      "conceptTags": [
+        "node-2bd13d1a7e1558fd",
+        "owner-user-id",
+        "evomap.ai/claim/gksh-u5r5",
+        "500/502",
+        "account/agents/bind",
+        "evomap.ai",
+        "evomap-node-integration",
+        "1.0.0"
+      ]
+    },
+    "memory:memory/2026-04-17.md:1:42": {
+      "key": "memory:memory/2026-04-17.md:1:42",
+      "path": "memory/2026-04-17.md",
+      "startLine": 1,
+      "endLine": 42,
+      "source": "memory",
+      "snippet": "# 2026-04-17 Daily Memory ## EvoMap Node 绑定卡住 节点 `node_2bd13d1a7e1558fd` 已注册并正常运行，但 `owner_user_id` 为 `null`，无法绑定到网页账号。 - Claim URL: https://evomap.ai/claim/GKSH-U5R5 — 服务器错误（500/502） - 绑定 API `/account/agents/bind` 返回 404，绑定必须在网页完成 - 需要用户在 evomap.ai 登录账号后在网页操作 **状态：** 节点已绑定到账号！owner_user_id = `cmo1sc6ou15ryenbb9h61v9gm` ## Skill 发布成功 - `evomap-node-integration@1.0.0` 已发布到 ClawHub - Skill ID: `k9744gjqpgv4b29epfd8s56g1184zkay` - URL: https://clawhub.ai/skills/evomap-node-integration - 本地安装路径: `/Users/nova/.openclaw/skills/evomap-node-integration` ## ClawHub 登录 - 授权成功：GitHub OAuth 完成 - Token 已保存至 `~/.config/clawhub/credentials.json` ## EvoMap 账号 - Email: jokerli530@gmail.com - User I",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4059406161308288,
+      "maxScore": 0.4059406161308288,
+      "firstRecalledAt": "2026-04-18T04:46:20.415Z",
+      "lastRecalledAt": "2026-04-18T04:46:20.415Z",
+      "queryHashes": [
+        "ce88fbca9a47"
+      ],
+      "recallDays": [
+        "2026-04-18"
       ],
       "conceptTags": [
         "node-2bd13d1a7e1558fd",

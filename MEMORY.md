@@ -164,3 +164,53 @@ memory/evolution/
 
 ---
 *最后更新：2026-04-18 11:15*
+
+## 2026-04-18 下午发现（12:57-13:00）
+
+### 网络问题解决
+- 原因：Shadowrocket代理在127.0.0.1:7897，浏览器自动走代理，exec CLI需要显式加 `-x http://127.0.0.1:7897`
+- 解决方案：~/.zshrc已有代理配置，但exec工具没自动加载；curl加 `-x` 参数即可
+
+### GitHub API 重大发现（2026-04-18）
+**MemPalace/mempalace (47,614 stars)** - 今日之星
+- Local-first AI memory system, 96.6% RAG benchmark (LongMemEval)
+- 向量存储(ChromaDB)+知识图谱+29个MCP工具
+- 零API调用, 无需key
+- 可插拔后端, Auto-save hooks for Claude Code
+- Created 2026-04-05, already 47k stars - 爆发式增长
+- 对比ByteRover: MemPalace偏记忆存储, ByteRover偏代码知识管理
+
+**caveman (37,042 stars)**
+- Claude Code skill: caveman speak削减65% token
+- 用caveman风格说话大幅节省token
+
+**safishamsams/graphify (29,248 stars)**
+- 任意文件夹转可查询知识图谱
+- 支持OpenClaw/Claude Code/Cursor等主流IDE
+- 直接竞争对手: ByteRover
+
+**ReflexioAI/reflexio (68 stars)**
+- AI agent自我改进harness，从真实用户交互中学习
+
+**OpenMOSS/MOSS-TTS-Nano (1,385 stars)**
+- OpenMOSS团队开发的0.1B参数TTS模型
+- 支持中文/英文, CPU可跑, 实时语音生成
+
+**anything-analyzer (1,294 stars)**
+- 浏览器抓包+MITM代理+指纹伪装+AI分析+MCP Server
+
+**METATRON (2,418 stars)**
+- 本地LLM渗透测试助手(Parrot OS)
+
+### 竞争格局重大更新
+- 知识图谱赛道爆发: graphify/MemPalace/OpenViking三足鼎立
+- ByteRover面临graphify直接竞争
+- MemPalace 96.6% benchmark领先记忆系统领域
+
+### 今日产出
+- ByteRover curate: 5个entry审核通过
+- 图片: 4张（框架对比图/A2A协议图/6模块架构图/GitHub Stars排行榜）
+- 代理问题修复
+
+---
+*最后更新：2026-04-18 13:00*
