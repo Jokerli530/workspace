@@ -263,3 +263,29 @@ memory/evolution/
 
 ---
 *最后更新：2026-04-18 13:20*
+
+## 2026-04-18 OpenMOSS 完整 Cycle 突破（13:27）
+
+**首次跑通完整 task lifecycle！**
+
+```
+Task Created (planning)
+  → SubTask Created (assigned to Executor)
+    → Executor Start (in_progress)
+      → Executor Submit (review)
+        → Reviewer Complete (done!) ✓
+```
+
+**关键发现**：
+- `/api/sub-tasks` 而不是 `/api/subtasks`
+- Claim 需要 executor 角色的 token，普通 token 会报 "仅限 executor 角色"
+- Start 需要相同的 executor token
+- Submit 后状态变为 "review"
+- Complete 需要 reviewer 角色的 token
+
+**任务ID记录**:
+- Task: `25eb3392-b292-4832-a4d1-ac28ffd364de`
+- SubTask: `d57a9f7e-eb09-4841-8212-74183d60b17d`
+
+---
+*最后更新：2026-04-18 13:28*
