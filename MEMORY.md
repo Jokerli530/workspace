@@ -324,3 +324,39 @@ Task Created (planning)
 
 ---
 *最后更新：2026-04-18 14:15*
+
+## 2026-04-18 下午深化研究（14:15-14:30）
+
+### Ghost OS 生态三件套深度分析
+**Ghost OS (1357 stars)**: macOS原生AI Agent OS
+- CGEvent tap + Accessibility Tree 控制所有macOS App
+- Self-learning recipes: 演示一次 → 合成JSON recipe → 永久回放
+- 官方竞品表: Ghost OS vs Anthropic Computer Use vs OpenAI Operator vs OpenClaw
+- OpenClaw弱点: 只支持Browser DOM，不能控制原生App
+
+**Shadow (53 stars)**: 14模态记忆系统
+- Recall/Rewind替代品，本地优先
+- 14种模态: 屏幕/键盘/鼠标/App使用/文件/网络...
+- MLX + Apple Silicon优化
+
+**Specter (28 stars)**: 90秒VM部署Agent基础设施
+
+### ECC 2.0 Rust Control Plane 深度分析
+- 位置: ecc2/ 目录, Alpha状态
+- 能力: SQLite session store, start/stop/resume, daemon mode, risk-scoring
+- 目标: 从单一界面管理多Agent会话
+- ECC 2.0 vs OpenClaw Gateway: 相同定位，不同语言(Rust vs Node.js)
+
+### weft Node Catalog
+13个分类: ai, code, communication, data, debug, enrichment, feedback, flow, layout, social, storage, transform, triggers
+
+### ByteRover竞争格局最终总结
+- 记忆系统: MemPalace(47k) > 其他
+- 代码知识图谱: graphify(29k) > swarmvault(227)
+- Agent性能优化: ECC(159k) 一骑绝尘
+- AI系统编程: weft (新兴语言)
+- macOS原生控制: Ghost OS生态
+- OpenClaw优势: 跨平台/浏览器自动化/mcp生态
+
+---
+*最后更新：2026-04-18 14:30*
