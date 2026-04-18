@@ -165,6 +165,24 @@ curl -s http://127.0.0.1:19000/yesterday-memo | jq '.'
 ## 坑点备忘
 
 - [x] curl 不走系统代理 → 必须加 `-x http://127.0.0.1:7897`
+
+## nova-mind 集成
+
+barbaric-growth 是 Nova 的"行动层"，nova-mind 是 Nova 的"记忆层"。两者配合：
+
+```
+barbaric-growth 执行任务
+    ↓
+nova-mind/memory/YYYY-MM-DD.md 写入日志
+    ↓
+patterns/ 更新决策模板
+    ↓
+MEMORY.md 更新长期记忆
+    ↓
+下次 barbaric-growth 任务使用更新后的模式
+```
+
+**注意**：barbaric-growth 每次执行后，应该手动触发 nova-self-evolution 技能。
 - [x] OpenMOSS subtask API → `/api/sub-tasks`（连字符）
 - [x] ByteRover curate → 50次/天额度限制
 - [x] Star Office 端口 → `:igrid` 显示为 CLOSED，实际 19000 可用
