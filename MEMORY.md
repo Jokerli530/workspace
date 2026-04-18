@@ -360,3 +360,21 @@ Task Created (planning)
 
 ---
 *最后更新：2026-04-18 14:30*
+
+## 野蛮成长技能 v1.0 发布（14:22）
+
+**技能ID**: k9715v05wea9xky4wewmtwhv0s853m4n
+**Slug**: barbaric-growth
+**URL**: https://clawhub.ai/skills/barbaric-growth
+
+**封装内容**:
+1. GitHub API 代理调用（curl -x http://127.0.0.1:7897）
+2. ByteRover curate 工作流（50次/天限制）
+3. OpenMOSS 完整 task cycle（create→subtask→start→submit→complete）
+4. Star Office 状态同步（6种状态→办公室区域）
+5. 自进化技能提取机制
+
+**这是 Nova 第一次将自身方法论封装为可复用技能!**
+
+---
+*最后更新：2026-04-18 14:22*
