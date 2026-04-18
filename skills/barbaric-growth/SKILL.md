@@ -6,15 +6,34 @@ metadata:
   { "openclaw": { "emoji": "🔥", "tags": ["autonomous", "research", "github", "bytedance"], "safety": "autonomous-only" }}
 ---
 
-# 野蛮成长自动化技能
+# 野蛮成长自动化技能 v1.1
 
 > 让 Nova 像个真正的 AI 一样：持续消耗 token，持续产出知识资产。
+> 
+> **v1.1 新增：Verification-First 原则（来自 prax-agent）**
 
 ## 核心流程
 
 ```
-1. GitHub热点追踪 → 2. 深度分析 → 3. ByteRover curate → 4. OpenMOSS日志 → 5. 状态同步
+1. GitHub热点追踪 → 2. 深度分析 → 3. ByteRover curate → 4. Verify验证 → 5. OpenMOSS日志 → 6. 状态同步
 ```
+
+## Verification-First 原则（来自 prax-agent）
+
+> "Most tools send a prompt and hope for the best. Prax runs a test-verify-fix loop."
+
+**不做**：`prompt → hope → done`
+**要做**：`execute → verify → confirm → done`
+
+### 验证检查点
+
+| 阶段 | 验证内容 |
+|------|----------|
+| GitHub API | 响应是否有效？stars 数据是否存在？ |
+| README fetch | 内容是否成功解码？是否完整？ |
+| ByteRover curate | 是否提交成功？是否有错误？ |
+| OpenMOSS cycle | task/subtask 是否正确创建？ |
+| Commit | 是否成功？有无冲突？ |
 
 ---
 
