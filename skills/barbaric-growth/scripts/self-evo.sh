@@ -1,85 +1,119 @@
 #!/bin/bash
-# self-evo.sh - barbaric-growth 自我进化机制
-# ECC self-evolution 启发：完成任务后自动提炼 pattern，积累到 patterns/ 目录
-
-set -euo pipefail
+# self-evo.sh v1.3 - barbaric-growth 自我进化机制
+# ECC self-evolution启发: 每次跑完自动提炼pattern，同语言repo自动关联
 
 WORKSPACE="/Users/nova/.openclaw/workspace"
 PATTERNS="$WORKSPACE/patterns"
 TRACKED="$WORKSPACE/barbaric-tracked.json"
-
 mkdir -p "$PATTERNS"
 
-# 从 tracked 获取最新研究过的 repo，提取 pattern
+# 找同语言的已有pattern（macOS compatible）
+find_similar() {
+    local lang="$1" current_repo="$2"
+    local result=""
+    for f in "$PATTERNS"/*.md; do
+        [ -f "$f" ] || continue
+        repo=$(basename "$f" .md | sed 's/_/\//g')
+        [ "$repo" = "$current_repo" ] && continue
+        if grep -q "language: $lang" "$f" 2>/dev/null; then
+            [ -n "$result" ] && result="$result,"
+            result="${result}$repo"
+        fi
+    done
+    echo "$result"
+}
+
 extract_pattern() {
-    local repo="$1"
-    local stars="$2"
-    local lang="$3"
-    local desc="$4"
+    local repo="$1" stars="$2" lang="$3" desc="$4"
+    local pattern_file="$PATTERNS/${repo//\//_}.md"
     
-    # 跳过已提取过 pattern 的
-    if [ -f "$PATTERNS/${repo//\//_}.md" ]; then
-        return
-    fi
+    {
+        echo "# Pattern: $repo"
+        echo ""
+        echo "## 元信息"
+        echo "- repo: $repo"
+        echo "- stars: $stars"
+        echo "- language: $lang"
+        echo "- discovered: $(date +%Y-%m-%d)"
+        echo "- pattern_id: $(date +%Y%m%d%H%M%S)"
+        echo ""
+        echo "## 特征"
+        echo "- description: ${desc:-无}"
+    } > "$pattern_file"
     
-    # 根据语言和 stars 生成 pattern 文件
-    cat > "$PATTERNS/${repo//\//_}.md" << EOF
-# Pattern: $repo
-
-## 元信息
-- repo: $repo
-- stars: $stars
-- language: $lang
-- discovered: $(date +%Y-%m-%d)
-- pattern_id: $(date +%Y%m%d%H%M%S)
-
-## 特征
-- description: ${desc:-无}
-
-## 提炼的 Pattern
-EOF
-    
-    # 根据语言标签生成对应的调研提示
     case "$lang" in
         Rust)
-            echo "## 调研要点（Rust项目）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 所有权系统 + 生命周期" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 并发模型（async/await、channel）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 生态依赖（crates.io）" >> "$PATTERNS/${repo//\//_}.md"
+            cat >> "$pattern_file" << 'EOF'
+
+## 调研要点（Rust）
+- 所有权系统 + 生命周期
+- 并发模型（async/await、channel）
+- crates.io生态
+- 性能优化手段
+EOF
             ;;
         TypeScript)
-            echo "## 调研要点（TypeScript项目）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 框架选择（React/Vue/Node）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 类型系统使用方式" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 包管理（npm/pnpm/yarn）" >> "$PATTERNS/${repo//\//_}.md"
+            cat >> "$pattern_file" << 'EOF'
+
+## 调研要点（TypeScript）
+- 框架选择（React/Vue/Node/Next.js）
+- 类型系统使用（strict、泛型）
+- 包管理（npm/pnpm/yarn）
+- 与OpenClaw的集成点
+EOF
             ;;
         Python)
-            echo "## 调研要点（Python项目）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 异步框架（asyncio/aiohttp）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 类型提示（typing）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 依赖管理（pip/poetry）" >> "$PATTERNS/${repo//\//_}.md"
+            cat >> "$pattern_file" << 'EOF'
+
+## 调研要点（Python）
+- 异步框架（asyncio/aiohttp）
+- 类型提示（typing、pydantic）
+- 依赖管理（pip/poetry/uv）
+- AI/ML相关库
+EOF
             ;;
         Go)
-            echo "## 调研要点（Go项目）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 并发模型（goroutine/channel）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 接口设计" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 错误处理模式" >> "$PATTERNS/${repo//\//_}.md"
+            cat >> "$pattern_file" << 'EOF'
+
+## 调研要点（Go）
+- 并发模型（goroutine/channel）
+- 接口设计（duck typing）
+- 错误处理模式
+EOF
             ;;
         *)
-            echo "## 调研要点（通用）" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 核心功能定位" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 架构模式" >> "$PATTERNS/${repo//\//_}.md"
-            echo "- 差异化特点" >> "$PATTERNS/${repo//\//_}.md"
+            cat >> "$pattern_file" << 'EOF'
+
+## 调研要点（通用）
+- 核心功能定位
+- 架构模式
+- 与OpenClaw的集成点
+EOF
             ;;
     esac
     
-    echo "" >> "$PATTERNS/${repo//\//_}.md"
-    echo "## EvoMap Capsule" >> "$PATTERNS/${repo//\//_}.md"
-    echo "- capsule_id: 待发布" >> "$PATTERNS/${repo//\//_}.md"
-    echo "- category: 待定" >> "$PATTERNS/${repo//\//_}.md"
+    # 找同语言已有pattern作为siblings
+    local similar
+    similar=$(find_similar "$lang" "$repo")
+    if [ -n "$similar" ]; then
+        echo "" >> "$pattern_file"
+        echo "## 同语言Sibling项目" >> "$pattern_file"
+        echo "$similar" | tr ',' '\n' | while read -r sibling; do
+            [ -z "$sibling" ] && continue
+            echo "  - ${sibling}" >> "$pattern_file"
+        done
+    fi
+    
+    echo "" >> "$pattern_file"
+    echo "## EvoMap Capsule" >> "$pattern_file"
+    echo "- capsule_id: 待发布" >> "$pattern_file"
+    echo "- category: 待定" >> "$pattern_file"
+    echo "- updated: $(date +%Y-%m-%d)" >> "$pattern_file"
 }
 
-# 对所有新发现的 repo 提取 pattern
+echo "[$(date '+%H:%M:%S')] self-evo: starting"
+
+# 第一轮：创建所有pattern文件
 if [ -f "$TRACKED" ]; then
     python3 -c "
 import json
@@ -97,4 +131,35 @@ for r in d.get('tracked', []):
     done
 fi
 
-echo "Self-evolution: $(ls $PATTERNS/*.md 2>/dev/null | wc -l | tr -d ' ') patterns extracted"
+# 第二轮：给所有pattern补充同语言sibling链接
+for f in "$PATTERNS"/*.md; do
+    [ -f "$f" ] || continue
+    repo=$(basename "$f" .md | sed 's/_/\//g')
+    lang=$(grep "^language:" "$f" 2>/dev/null | awk '{print $2}')
+    [ -z "$lang" ] && continue
+    
+    # 收集所有同语言的siblings
+    siblings=""
+    for sf in "$PATTERNS"/*.md; do
+        [ -f "$sf" ] || continue
+        srepo=$(basename "$sf" .md | sed 's/_/\//g')
+        [ "$srepo" = "$repo" ] && continue
+        if grep -q "^language: $lang" "$sf" 2>/dev/null; then
+            siblings="${siblings}  - ${srepo}
+"
+        fi
+    done
+    
+    # 去掉## 同语言 section（如果有），重新生成
+    if [ -n "$siblings" ]; then
+        # 删除旧的同语言section
+        sed -i '' '/^## 同语言/,/^## EvoMap Capsule/d' "$f" 2>/dev/null
+        # 在## EvoMap Capsule前插入新的siblings section
+        sed -i '' "/^## EvoMap Capsule/i\
+## 同语言Sibling项目\
+${siblings}" "$f" 2>/dev/null
+    fi
+done
+
+count=$(ls $PATTERNS/*.md 2>/dev/null | wc -l | tr -d ' ')
+echo "[$(date '+%H:%M:%S')] self-evo: $count patterns total (siblings updated)"
