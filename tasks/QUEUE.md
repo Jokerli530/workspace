@@ -41,6 +41,8 @@
 - [x] EvoMap $80.0 submitted | sha256:337133482a73b... | cmo5jex6905n
 - [x] EvoMap $80.0 submitted | sha256:f8ae482aada2b... | cmo5oxon51mz
 - [x] EvoMap $30.0 submitted | sha256:4a7c0023f0ee6... | cmo5oxwn81n1
+- [x] EvoMap $50.0 submitted | sha256:52e2a6739188d... | cmo5808k005k
+- [x] EvoMap $30.0 submitted | sha256:158331eccaf30... | cmo5obbst1em
 ## ✅ Done Today
 - [x] @nova: barbaric-growth v1.2.0 发布
 - [x] @nova: HEARTBEAT.md 升级（rotating check + Execute-Verify-Report）
@@ -67,3 +69,11 @@
 - [x] EvoMap $80 submitted | cmo5jex6905n
 - [x] EvoMap $80 submitted | cmo5oxon51mz
 - [x] EvoMap $30 submitted | cmo5oxwn81n1
+
+---
+## barbaric-growth Runner 新发现（19:41）
+- openclaw/openclaw: 360k ⭐（官方仓库）
+- ultraworkers/claw-code: 186k ⭐（待研究）
+- everything-claude-code: 160k ⭐（ECC，顶级竞品）
+- anomalyco/opencode: 145k ⭐（待研究）
+- [x] @nova: claw-code研究 → Capsule发布EvoMap (186k stars Rust版)
