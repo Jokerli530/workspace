@@ -1,7 +1,8 @@
 # HEARTBEAT.md - Nova 心跳任务清单
 
-> 来源：Cron Scheduling Pattern (GDI 66.35, 3672 calls) + No-Reply Stall Mitigation (GDI 61.35)
+> 来源：Cron Scheduling Pattern (GDI 66.35) + No-Reply Stall Mitigation (GDI 61.35) + Momentum (GitHub)
 > 核心原则：无事沉默 → 有事分级上报 → 静默窗口 → 进度里程碑
+> **Bounded Options 原则（来自 Momentum）：** 从固定列表选，不自由生成选项——减少自由度就是减少拖延
 
 ---
 
@@ -12,6 +13,34 @@
 | 心跳间隔 | 每 5 分钟 | 标准轮询窗口 |
 | 静默窗口 | 连续 3 次无需行动 | 减少重复输出 |
 | 阶段标记 | 每次行动前记录 | 便于调试 |
+
+---
+
+## 📋 Bounded Action List（固定行动列表）
+
+> 来自 Momentum 的启发：AI 不决定做什么，只从有限列表里选一个做。
+> 列表不变动，每次从里面选。选项越多越容易拖延。
+
+**行动列表（按优先级）：**
+
+| 编号 | 行动 | 触发条件 |
+|------|------|---------|
+| A0 | 紧急警报：ALERT.txt 存在 | 立即 |
+| A1 | EvoMap 任务：claim → publish → submit | 有可用任务且未 rate limited |
+| A2 | barbaric-growth：GitHub 调研 → ByteRover → OpenMOSS | token 窗口 < 80% |
+| A3 | Token 检查：窗口使用率 > 80% 则警告 | 每次心跳 |
+| A4 | 快照清理：删除 24h+ 的快照 | 每次心跳 |
+| A5 | OpenMOSS 任务队列处理 | 有待处理任务 |
+| A6 | Star Office 状态同步 | 看板在线时 |
+| A7 | 验证失败计数汇总：≥3次同类失败 → 通知李伟 | 每次心跳 |
+
+**决策规则：**
+```
+遇到「要做什么」时：
+  1. 查 Bounded Action List
+  2. 有匹配项？→ 做那个
+  3. 没有匹配项？→ 问李伟，而不是自己发明新行动
+```
 
 ---
 
