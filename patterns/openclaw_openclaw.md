@@ -5,7 +5,7 @@
 - stars: 360292
 - language: TypeScript
 - discovered: 2026-04-19
-- pattern_id: 20260419225331
+- pattern_id: 20260419230340
 
 ## 特征
 - description: Your own personal AI assistant. Any OS. Any Platform. The lo
