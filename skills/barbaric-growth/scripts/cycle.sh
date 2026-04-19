@@ -4,7 +4,21 @@
 
 set -euo pipefail
 
-WORKSPACE="/Users/nova/.openclaw/workspace"
+WORKSPACE=
+
+# Prevent concurrent runs
+LOCK="$WORKSPACE/barbaric-growth-run.lock"
+if [ -f "$LOCK" ]; then
+    LOCK_PID=$(cat "$LOCK" 2>/dev/null)
+    if [ -n "$LOCK_PID" ] && kill -0 "$LOCK_PID" 2>/dev/null; then
+        echo "barbaric-growth already running (PID $LOCK_PID), exiting"
+        exit 0
+    fi
+    rm -f "$LOCK"
+fi
+echo $$ > "$LOCK"
+trap "rm -f $LOCK" EXIT
+"/Users/nova/.openclaw/workspace"
 STATE="$WORKSPACE/heartbeat-state.json"
 LOG="/tmp/barbaric-growth.log"
 BRV_STATE="$WORKSPACE/byterover-state.json"
@@ -32,27 +46,24 @@ init_tracked
 
 # 1. GitHub Trending - find interesting repos (AI/agent related)
 log "phase=github action=search"
-SEARCH_QUERIES=(
-    "stars:>50000+language:rust+pushed:>2026-01-01"
-    "stars:>50000+language:typescript+AI+agent+pushed:>2026-01-01"
-    "stars:>30000+openclaw+OR+claude-code+OR+agent-harness+pushed:>2026-01-01"
-)
-
-TRENDING=""
-for query in "${SEARCH_QUERIES[@]}"; do
-    RAW=$(curl -s $PROXY \
-        "https://api.github.com/search/repositories?q=${query}&sort=stars&per_page=3" \
-        -H "Accept: application/vnd.github.v3+json" 2>> "$LOG")
-    ITEMS=$(echo "$RAW" | python3 -c "
+# Single combined query - reduces from 3 API calls to 1
+RAW=$(curl -s $PROXY \
+    "https://api.github.com/search/repositories?q=stars:>50000+language:rust+OR+language:typescript+pushed:>2026-01-01&sort=stars&per_page=10" \
+    -H "Accept: application/vnd.github.v3+json" 2>> "$LOG")
+TRENDING=$(echo "$RAW" | python3 -c "
 import sys,json
 try:
     d=json.load(sys.stdin)
-    for r in d.get('items',[])[:3]:
-        print(f\"{r['full_name']}|{r['stargazers_count']}|{r.get('language','')}|{r.get('description','')[:60]}\")
+    seen=set()
+    count=0
+    for r in d.get('items',[]):
+        name=r['full_name']
+        if name not in seen and count < 5:
+            seen.add(name)
+            print(f\"{name}|{r['stargazers_count']}|{r.get('language','')}|{r.get('description','')[:60]}\")
+            count+=1
 except: pass
 " 2>> "$LOG")
-    TRENDING="$TRENDING"$'\n'"$ITEMS"
-done
 
 # Deduplicate and filter
 NEW_REPOS=$(echo "$TRENDING" | grep -v "^$" | sort -u -t'|' -k1,1 | head -5)
@@ -160,4 +171,57 @@ except: pass
 # Self-evolution: extract patterns from newly researched repos
 bash "$WORKSPACE/skills/barbaric-growth/scripts/self-evo.sh" 2>/dev/null
 
+# Sync barbar-tracked.json with pattern files
+bash "$WORKSPACE/skills/barbaric-growth/scripts/sync-state.sh" 2>/dev/null
+
 log "barbaric_growth_complete"
+
+# GitHub API cache - 减少重复请求
+GITHUB_CACHE="$WORKSPACE/.github-cache.json"
+CACHE_TTL=600  # 10分钟内不重复请求
+
+github_cached() {
+    local query="$1"
+    local now=$(date +%s)
+    
+    if [ -f "$GITHUB_CACHE" ]; then
+        local cached=$(python3 -c "
+import json, time
+try:
+    with open('$GITHUB_CACHE') as f:
+        d = json.load(f)
+    if '$query' in d:
+        entry = d['$query']
+        if $now - entry.get('ts', 0) < $CACHE_TTL:
+            print(entry.get('data', ''))
+        else:
+            print('EXPIRED')
+    else:
+        print('MISS')
+except: print('ERR')
+" 2>/dev/null)
+        echo "$cached"
+    else
+        echo "MISS"
+    fi
+}
+
+github_save_cache() {
+    local query="$1"
+    local data="$2"
+    local now=$(date +%s)
+    
+    python3 << PYEOF 2>/dev/null
+import json, time, os
+cache_file = '$GITHUB_CACHE'
+d = {}
+if os.path.exists(cache_file):
+    try:
+        with open(cache_file) as f:
+            d = json.load(f)
+    except: d = {}
+d['$query'] = {'ts': $now, 'data': '$data'}
+with open(cache_file, 'w') as f:
+    json.dump(d, f)
+PYEOF
+}

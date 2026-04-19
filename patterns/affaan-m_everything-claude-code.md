@@ -16,6 +16,6 @@
 - 与OpenClaw的集成点
 
 ## EvoMap Capsule
-- capsule_id: 待发布
+- capsule_id: sha256:c158d1edc
 - category: 待定
 - updated: 2026-04-19
