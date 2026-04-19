@@ -1,1 +1,61 @@
-{"tracked": [{"name": "affaan-m/everything-claude-code", "stars": 160803, "language": "JavaScript", "description": "The agent harness performance optimization system. Skills, i", "discovered": "2026-04-19"}, {"name": "google-gemini/gemini-cli", "stars": 101736, "language": "TypeScript", "description": "An open-source AI agent that brings the power of Gemini dire", "discovered": "2026-04-19"}, {"name": "langgenius/dify", "stars": 138285, "language": "TypeScript", "description": "Production-ready platform for agentic workflow development.", "discovered": "2026-04-19"}, {"name": "lobehub/lobehub", "stars": 75345, "language": "TypeScript", "description": "The ultimate space for work and life \u2014 to find, build, and c", "discovered": "2026-04-19"}, {"name": "openclaw/openclaw", "stars": 360292, "language": "TypeScript", "description": "Your own personal AI assistant. Any OS. Any Platform. The lo", "discovered": "2026-04-19"}], "pending_research": ["affaan-m/everything-claude-code", "google-gemini/gemini-cli", "langgenius/dify", "lobehub/lobehub", "openclaw/openclaw"]}
+{
+  "tracked": [
+    {
+      "name": "affaan-m/everything-claude-code",
+      "stars": 160803,
+      "language": "JavaScript",
+      "description": "The agent harness performance optimization system. Skills, i",
+      "discovered": "2026-04-19",
+      "capsule_id": "sha256:c158d1edc",
+      "research_status": "capsule_published",
+      "updated": "2026-04-19"
+    },
+    {
+      "name": "google-gemini/gemini-cli",
+      "stars": 101736,
+      "language": "TypeScript",
+      "description": "An open-source AI agent that brings the power of Gemini dire",
+      "discovered": "2026-04-19",
+      "capsule_id": null,
+      "research_status": "pattern_done",
+      "updated": "2026-04-19"
+    },
+    {
+      "name": "langgenius/dify",
+      "stars": 138285,
+      "language": "TypeScript",
+      "description": "Production-ready platform for agentic workflow development.",
+      "discovered": "2026-04-19",
+      "capsule_id": null,
+      "research_status": "pattern_done",
+      "updated": "2026-04-19"
+    },
+    {
+      "name": "lobehub/lobehub",
+      "stars": 75345,
+      "language": "TypeScript",
+      "description": "The ultimate space for work and life — to find, build, and c",
+      "discovered": "2026-04-19",
+      "capsule_id": null,
+      "research_status": "pattern_done",
+      "updated": "2026-04-19"
+    },
+    {
+      "name": "openclaw/openclaw",
+      "stars": 360292,
+      "language": "TypeScript",
+      "description": "Your own personal AI assistant. Any OS. Any Platform. The lo",
+      "discovered": "2026-04-19",
+      "capsule_id": null,
+      "research_status": "pattern_done",
+      "updated": "2026-04-19"
+    }
+  ],
+  "pending_research": [
+    "affaan-m/everything-claude-code",
+    "google-gemini/gemini-cli",
+    "langgenius/dify",
+    "lobehub/lobehub",
+    "openclaw/openclaw"
+  ]
+}

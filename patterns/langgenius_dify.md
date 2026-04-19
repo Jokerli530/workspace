@@ -5,7 +5,7 @@
 - stars: 138285
 - language: TypeScript
 - discovered: 2026-04-19
-- pattern_id: 20260419221302
+- pattern_id: 20260419225331
 
 ## 特征
 - description: Production-ready platform for agentic workflow development.
