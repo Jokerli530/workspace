@@ -1,8 +1,8 @@
 # HEARTBEAT.md - Nova 心跳任务清单
 
-> 来源：Cron Scheduling Pattern (GDI 66.35) + No-Reply Stall Mitigation (GDI 61.35) + Momentum (GitHub)
+> 来源：Cron Scheduling Pattern (GDI 66.35) + No-Reply Stall Mitigation (GDI 61.35) + awesome-openclaw-tips REL-03
 > 核心原则：无事沉默 → 有事分级上报 → 静默窗口 → 进度里程碑
-> **Bounded Options 原则（来自 Momentum）：** 从固定列表选，不自由生成选项——减少自由度就是减少拖延
+> **Rotating Check（来自 awesome-openclaw-tips REL-03）：读 heartbeat-state.json，跑最过期的那项。不是每次全跑，是轮着跑。**
 
 ---
 
@@ -16,31 +16,24 @@
 
 ---
 
-## 📋 Bounded Action List（固定行动列表）
+## 📋 Rotating Check 流程
 
-> 来自 Momentum 的启发：AI 不决定做什么，只从有限列表里选一个做。
-> 列表不变动，每次从里面选。选项越多越容易拖延。
-
-**行动列表（按优先级）：**
-
-| 编号 | 行动 | 触发条件 |
-|------|------|---------|
-| A0 | 紧急警报：ALERT.txt 存在 | 立即 |
-| A1 | EvoMap 任务：claim → publish → submit | 有可用任务且未 rate limited |
-| A2 | barbaric-growth：GitHub 调研 → ByteRover → OpenMOSS | token 窗口 < 80% |
-| A3 | Token 检查：窗口使用率 > 80% 则警告 | 每次心跳 |
-| A4 | 快照清理：删除 24h+ 的快照 | 每次心跳 |
-| A5 | OpenMOSS 任务队列处理 | 有待处理任务 |
-| A6 | Star Office 状态同步 | 看板在线时 |
-| A7 | 验证失败计数汇总：≥3次同类失败 → 通知李伟 | 每次心跳 |
-
-**决策规则：**
 ```
-遇到「要做什么」时：
-  1. 查 Bounded Action List
-  2. 有匹配项？→ 做那个
-  3. 没有匹配项？→ 问李伟，而不是自己发明新行动
+1. 读取 heartbeat-state.json
+2. 找出 lastChecks 中最过期的一项
+3. 执行该项检查
+4. 更新 heartbeat-state.json 的时间戳
+5. 根据结果决定是否上报
 ```
+
+**检查项（轮着来）：**
+
+| 检查项 | 最低间隔 | 做什么 |
+|--------|---------|-------|
+| `evomap` | 5 分钟 | 检查 ALERT.txt，有就 claim+submit |
+| `token` | 60 分钟 | 窗口 >80% 则警告李伟 |
+| `openmoss` | 30 分钟 | 拉取待处理任务 |
+| `snapshot_cleanup` | 每 24 小时 | 清理 24h+ 快照 |
 
 ---
 
@@ -48,7 +41,7 @@
 
 **触发条件：** ALERT.txt 存在
 
-```
+```bash
 if [ -f ~/.openclaw/evomap-monitor/ALERT.txt ]; then
     ALERT_CONTENT=$(cat ~/.openclaw/evomap-monitor/ALERT.txt)
     # 立即通知李伟，包含任务详情
@@ -56,20 +49,16 @@ if [ -f ~/.openclaw/evomap-monitor/ALERT.txt ]; then
 fi
 ```
 
-**事件类型：**
-- EvoMap 高价值任务（≥$50）
-- 系统错误需要人工介入
-
 ---
 
 ## 🚨 优先级 1：重要事项（立即处理）
 
-### 1. Token 余额告急
+### Token 余额告急
 
 ```bash
 WINDOW_USAGE=$(cat ~/.openclaw/token-state.json | jq '.window_calls')
 WINDOW_LIMIT=1500
-WARN_THRESHOLD=0.80  # 80%
+WARN_THRESHOLD=0.80
 
 if [ $WINDOW_USAGE -gt $((WINDOW_LIMIT * WARN_THRESHOLD)) ]; then
     # 通知李伟：Token 快用完了
@@ -78,29 +67,7 @@ fi
 
 ---
 
-## 📊 优先级 2：例行检查
-
-### 检查顺序（按重要性排序）
-
-**1. EvoMap 任务警报** — ALERT.txt
-- 检查间隔：每次心跳
-
-**2. Token 窗口状态**
-- 检查间隔：每小时（避免频繁读取文件）
-- 警告阈值：>80% 窗口已用
-
-**3. OpenMOSS 任务队列**
-- 有待处理任务时主动拉取
-
-**4. 系统状态**
-- Star Office UI 是否在线
-- 其他后台进程状态
-
----
-
 ## 📝 阶段日志格式
-
-每次执行重要操作时，记录阶段转换：
 
 ```
 [HH:MM:SS] phase=<阶段名> action=<执行动作> status=<started|completed|failed> duration=<秒数>
@@ -112,6 +79,7 @@ fi
 - `evomap` — 处理 EvoMap 任务
 - `token` — 检查 token 状态
 - `openmoss` — 处理 OpenMOSS 任务
+- `snapshot_cleanup` — 清理快照
 - `escalating` — 正在上报给李伟
 
 ---
@@ -136,10 +104,10 @@ fi
 ## 📋 完整心跳流程
 
 ```
-1. 读取 ALERT.txt → 存在？→ 立即通知李伟
-2. 检查 token 窗口 → >80%？→ 警告李伟
-3. 检查 OpenMOSS 队列 → 有任务？→ 拉取处理
-4. 检查其他待办
+1. 读取 heartbeat-state.json
+2. 找出最过期的一项
+3. 执行该检查
+4. 更新 heartbeat-state.json
 5. 记录阶段日志
 6. 判断是否需要上报：
    - 紧急/重要 → 详细通知李伟
@@ -192,10 +160,7 @@ fi
 
 ### 高风险操作前的状态快照
 
-**适用场景：** `git commit` / `rm` / `mv` 到非临时目录
-
 ```bash
-# 快照函数
 snapshot() {
     local desc="$1"
     local target="$2"
@@ -208,23 +173,17 @@ snapshot() {
 }
 ```
 
-### 验证日志格式
-
-```
-[HH:MM:SS] verify action=<执行的动作> status=<success|failed|retry> error=<错误标签> duration=<ms>
-```
-
 ---
 
 ## 🔄 自进化记录
 
 每次心跳可以顺便记录：
 
-- evals 增长数（用于追踪 reputation 变化）
+- evals 增长数
 - 任务完成数
 - 静默窗口计数
-- 验证失败计数（用于判断是否需要通知）
+- 验证失败计数
 
 ---
 
-*最后更新：2026-04-19（参考 EvoMap Cron Scheduling + No-Reply Stall Mitigation + Self-Correcting Tool Use）*
+*最后更新：2026-04-19（参考 Cron Scheduling + No-Reply Stall Mitigation + Self-Correcting + awesome-openclaw-tips REL-03）*

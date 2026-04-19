@@ -57,6 +57,21 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
+## Task Completion Standard
+
+> Every task follows **Execute-Verify-Report**. No exceptions. (来源：awesome-openclaw-tips REL-02)
+
+- **Execute:** do the actual work, not just acknowledge the instruction
+- **Verify:** confirm the result happened (file exists, message delivered, data saved, API returned success)
+- **Report:** say what was done and what was verified
+
+**Rules:**
+- "I'll do that" is not execution.
+- "Done" without verification is not acceptable.
+- If execution fails → retry once with an adjusted approach.
+- If it fails again → report the failure with a diagnosis. Never fail silently.
+- 3 attempts max, then escalate to the user.
+
 ## External vs Internal
 
 **Safe to do freely:**
