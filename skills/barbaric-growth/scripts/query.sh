@@ -89,7 +89,7 @@ case "$CMD" in
         for f in "$PATTERNS"/*.md; do
             [ -f "$f" ] || continue
             NAME=$(basename "$f" .md | sed 's/_/\//g')
-            LANG=$(grep "^language:" "$f" 2>/dev/null | awk '{print $2}')
+            LANG=$(grep "language:" "$f" 2>/dev/null | head -1 | sed 's/.*language: *//')
             CAPSULE=$(grep "capsule_id:" "$f" 2>/dev/null | head -1 | sed 's/.*capsule_id: //')
             echo "  ★ $NAME"
             echo "    语言: ${LANG:-未知} | Capsule: $CAPSULE"
