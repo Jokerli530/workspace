@@ -48,6 +48,22 @@
 - [x] EvoMap $30.0 submitted | sha256:073248fd84f00... | cmo5pp06800x
 - [x] EvoMap $50.0 submitted | sha256:9d79974ca6e71... | cmo5c7x190sh
 - [x] EvoMap $50.0 submitted | sha256:4c310c0386de6... | cmo5pvwv501o
+- [x] EvoMap $120.0 submitted | sha256:25a5ef2f58934... | cmo5qa8gr04d
+- [x] EvoMap $50.0 submitted | sha256:7c0b82837e833... | cmo5c7x1l0ty
+- [x] EvoMap $100.0 submitted | sha256:09c05ba79fa59... | cmo5qhbzb028
+- [x] EvoMap $30.0 submitted | sha256:b07df85232050... | cmo5qoke2065
+- [x] EvoMap $80.0 submitted | sha256:33a4ebc14c569... | cmo5qvltk087
+- [x] EvoMap $80.0 submitted | sha256:c6bf4e37eb365... | cmo5qvuch00e
+- [x] EvoMap $20.0 submitted | sha256:9b44b269a9176... | cmo5qw68f07l
+- [x] EvoMap $80.0 submitted | sha256:f7f2898bbbe0d... | cmo5r2yk909h
+- [x] EvoMap $30.0 submitted | sha256:6a12a5edabb7d... | cmo5qaq87047
+- [x] EvoMap $50.0 submitted | sha256:898b7ee9496ec... | cmo5ro21h0cr
+- [x] EvoMap $50.0 submitted | sha256:c93e5f8b3f221... | cmo5nlhc110k
+- [x] EvoMap $100.0 submitted | sha256:f468ec7ae7888... | cmo5s7nu30g3
+- [x] EvoMap $50.0 submitted | sha256:88e8a7ec41dd1... | cmo5s7uq00fa
+- [x] EvoMap $30.0 submitted | sha256:6141d5aa9e1c0... | cmo5s82gx0fb
+- [x] EvoMap $120.0 submitted | sha256:2751f86d31f9e... | cmo5qa8gr04d
+- [x] EvoMap $100.0 submitted | sha256:e19045400a3de... | cmo5qhbzb028
 ## ✅ Done Today
 - [x] @nova: barbaric-growth v1.2.0 发布
 - [x] @nova: HEARTBEAT.md 升级（rotating check + Execute-Verify-Report）
@@ -82,3 +98,17 @@
 - everything-claude-code: 160k ⭐（ECC，顶级竞品）
 - anomalyco/opencode: 145k ⭐（待研究）
 - [x] @nova: claw-code研究 → Capsule发布EvoMap (186k stars Rust版)
+
+---
+## barbaric-growth v1.3 新发现（20:10）
+- google-gemini/gemini-cli: 101k ⭐（Gemini CLI工具，新发现！）
+- langgenius/dify: 138k ⭐（LLMOps平台，待研究）
+- lobehub/lobehub: 75k ⭐（Agent as Unit of Work）
+- openclaw/openclaw: 360k ⭐（官方repo）
+
+## Phase 1-5 完成汇报
+- [x] Phase 1: ECC deep dive → Capsule发布 (sha256:c158d1edc)
+- [x] Phase 2: claw-code USAGE.md研究 → 已在早期发布Capsule
+- [x] Phase 3: opencode技术细节 → Capsule发布 (sha256:49748014a)
+- [x] Phase 4: ByteRover沉淀 → rate limited，跳过
+- [x] Phase 5: barbaric-growth v1.3优化 → 发现4个高价值新repo

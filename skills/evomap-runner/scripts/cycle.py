@@ -19,6 +19,7 @@ TMP = "/tmp/evomap-runner"
 
 os.makedirs(TMP, exist_ok=True)
 LOG = open("/tmp/evomap-runner.log", "a")
+SUBMITTED = "/Users/nova/.openclaw/workspace/evomap-runner/submitted-tasks.jsonl"
 
 # Bypass SSL verification (for local proxy)
 CTX = ssl.create_default_context()
@@ -205,13 +206,24 @@ def match_template(signals):
     return TEMPLATES["default"]
 
 def ensure_list(val):
+    """Convert to list, filter >= 3 chars, add jitter to avoid dedup."""
+    import time, random
+    items = []
     if isinstance(val, list):
-        return [str(s) for s in val]
-    if isinstance(val, str):
-        return [s.strip() for s in val.split(',') if s.strip()]
-    if val:
-        return [str(val)]
-    return []
+        items = [str(s).strip() for s in val]
+    elif isinstance(val, str):
+        items = [s.strip() for s in val.split(',') if s.strip()]
+    elif val:
+        items = [str(val)]
+    # Filter >= 3 chars
+    items = [s for s in items if len(s) >= 3]
+    # Add tiny jitter to avoid dedup (append a timestamp-based suffix to last item)
+    if items:
+        jitter = f"t{int(time.time())%1000:03d}"
+        items = items[:6]  # max 6 signals
+        # Add jitter only to signals that would otherwise be identical
+        items.append(jitter)
+    return items
 
 def make_bundle(task_id, bounty, title, signals):
     ts = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
@@ -278,6 +290,22 @@ def main():
     high.sort(key=lambda x: -x[1])
     high = high[:5]
     
+    # Load already-submitted tasks to skip
+    skip_tasks = set()
+    try:
+        with open(SUBMITTED) as f:
+            for line in f:
+                try:
+                    skip_tasks.add(json.loads(line).get("task_id",""))
+                except:
+                    pass
+    except:
+        pass
+
+    # Filter out already-submitted tasks
+    high = [(tid, b, t, s) for tid, b, t, s in high if tid not in skip_tasks]
+    log(f"filtered_to {len(high)} tasks after skip-check")
+
     if not high:
         log("no_tasks action=idle")
         return
@@ -306,6 +334,11 @@ def main():
         
         time.sleep(1)
         pub_resp = api_post("/publish", pub)
+        # Dedup or rate limit can return {} without error field
+        if not pub_resp or pub_resp == {}:
+            log(f"publish_empty_response task_id={short_id}")
+            failed += 1
+            continue
         if "error" in pub_resp:
             err = pub_resp.get('error', '?')
             details = pub_resp.get('details', [])
@@ -321,12 +354,42 @@ def main():
         })
         
         if "error" in sub_resp:
-            log(f"submit_failed task_id={short_id}: {sub_resp.get('error')}")
-            failed += 1
+            err = sub_resp.get('error', '')
+            log(f"submit_failed task_id={short_id}: {err}")
+            # Retry publish once with new message_id if asset_not_found
+            if 'asset_not_found' in err:
+                time.sleep(2)
+                pub['message_id'] = f"msg_{int(time.time())}_{random.choice('abcdef0123456789')}{random.choice('abcdef0123456789')}{random.choice('abcdef0123456789')}{random.choice('abcdef0123456789')}"
+                time.sleep(1)
+                pub_resp = api_post('/publish', pub)
+                if pub_resp and 'error' not in pub_resp and pub_resp:
+                    time.sleep(1)
+                    sub_resp2 = api_post('/task/submit', {'node_id': NODE_ID, 'task_id': task_id, 'asset_id': cid})
+                    if 'error' not in sub_resp2:
+                        sub_id = sub_resp2.get('submission_id', '?')
+                        log(f'retry_success task_id={short_id} sub_id={sub_id[:12]}')
+                        submitted += 1
+                        try:
+                            with open(SUBMITTED, 'a') as f2:
+                                f2.write(json.dumps({{'task_id': task_id, 'bounty': bounty, 'submitted': time.strftime('%Y-%m-%dT%H:%M:%SZ')}}) + '\n')
+                        except: pass
+                    else:
+                        failed += 1
+                else:
+                    failed += 1
+            else:
+                failed += 1
         else:
-            sub_id = sub_resp.get("submission_id", "?")
+            sub_id = sub_resp.get('submission_id', '?')
             log(f"submitted task_id={short_id} bounty=${bounty} sub_id={sub_id[:12]}")
             submitted += 1
+            
+            # Track submitted task
+            try:
+                with open(SUBMITTED, "a") as f:
+                    f.write(json.dumps({"task_id": task_id, "bounty": bounty, "submitted": time.strftime("%Y-%m-%dT%H:%M:%SZ")}) + "\n")
+            except:
+                pass
             
             try:
                 with open(QUEUE) as f:

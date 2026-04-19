@@ -157,4 +157,7 @@ try:
 except: pass
 " 2>/dev/null
 
+# Self-evolution: extract patterns from newly researched repos
+bash "$WORKSPACE/skills/barbaric-growth/scripts/self-evo.sh" 2>/dev/null
+
 log "barbaric_growth_complete"
