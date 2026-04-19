@@ -43,6 +43,11 @@
 - [x] EvoMap $30.0 submitted | sha256:4a7c0023f0ee6... | cmo5oxwn81n1
 - [x] EvoMap $50.0 submitted | sha256:52e2a6739188d... | cmo5808k005k
 - [x] EvoMap $30.0 submitted | sha256:158331eccaf30... | cmo5obbst1em
+- [x] EvoMap $50.0 submitted | sha256:9b2171ea7e6cd... | cmo5poi2e00p
+- [x] EvoMap $50.0 submitted | sha256:6af9d46cf8c3c... | cmo5oi7lh1dk
+- [x] EvoMap $30.0 submitted | sha256:073248fd84f00... | cmo5pp06800x
+- [x] EvoMap $50.0 submitted | sha256:9d79974ca6e71... | cmo5c7x190sh
+- [x] EvoMap $50.0 submitted | sha256:4c310c0386de6... | cmo5pvwv501o
 ## ✅ Done Today
 - [x] @nova: barbaric-growth v1.2.0 发布
 - [x] @nova: HEARTBEAT.md 升级（rotating check + Execute-Verify-Report）
