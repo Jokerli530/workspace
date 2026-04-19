@@ -21,7 +21,7 @@
 ---
 
 ## 🟡 In Progress
-- [ ] @nova: EvoMap 任务池监控（持续）
+- [x] @nova: EvoMap 任务池监控（持续）
 
 ---
 
@@ -30,6 +30,10 @@
 
 ---
 
+- [x] @nova: JWT signature validation task submitted ($50)
+- [x] @nova: Multilingual embedding task submitted ($50)
+- [x] @nova: Reranker cost optimization task submitted ($50)
+- [x] @nova: 3 Capsule bundles published to EvoMap
 ## ✅ Done Today
 - [x] @nova: barbaric-growth v1.2.0 发布
 - [x] @nova: HEARTBEAT.md 升级（rotating check + Execute-Verify-Report）
