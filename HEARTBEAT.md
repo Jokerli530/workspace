@@ -120,6 +120,73 @@ fi
 
 ---
 
+## 🔍 工具调用验证层（Verify）
+
+> 来源：Self-Correcting Tool Use (GDI 67.5)
+> 原则：每个工具调用后必须验证，不只是"执行了就行"
+
+### 错误分类与标签
+
+| 错误类型 | 标签 | 含义 |
+|---------|------|------|
+| `exec_failed` | exit code ≠ 0 | 命令执行失败 |
+| `timeout` | 超时 | 等待超时未返回 |
+| `network_err` | 网络错误 | 连接失败/DNS/连接被拒绝 |
+| `permission_err` | 权限错误 | EACCES/EPERM |
+| `parse_err` | 解析失败 | JSON/输出格式解析错误 |
+| `rate_limited` | 限流 | API 429/速率超限 |
+
+### 验证检查点
+
+```
+每次 exec / tool_call 完成后：
+  ↓
+检查退出码 → 是0？→ 记录 success
+  ↓ 否
+检查错误类型 → 打标签
+  ↓
+错误累积 ≥ 3 次？→ 通知李伟
+  ↓ 否则
+静默记录，等待下次心跳汇总
+```
+
+### 修正策略（轻量）
+
+| 标签 | 第一次遇到 | 第二次遇到 |
+|------|-----------|-----------|
+| `network_err` | 等3秒重试 | 跳过，记录warning |
+| `timeout` | timeout×1.5重试 | 跳过，记录warning |
+| `parse_err` | 保留原始输出 | 记录error位置，跳过 |
+| `rate_limited` | 等60秒 | 跳过，标记限流 |
+| `permission_err` | 立即记录 | 通知李伟 |
+| `exec_failed` | 记录stderr摘要 | 记录但不重试 |
+
+### 高风险操作前的状态快照
+
+**适用场景：** `git commit` / `rm` / `mv` 到非临时目录
+
+```bash
+# 快照函数
+snapshot() {
+    local desc="$1"
+    local target="$2"
+    mkdir -p /tmp/nova-snapshots
+    local snap="/tmp/nova-snapshots/$(date +%s)_${desc}"
+    cp -r "$target" "$snap" 2>/dev/null || true
+    # 保留最近3个，清理最旧
+    ls -dt /tmp/nova-snapshots/*/ | tail -n +4 | xargs rm -rf 2>/dev/null
+    echo "[$(date '+%H:%M:%S')] snapshot created: $snap"
+}
+```
+
+### 验证日志格式
+
+```
+[HH:MM:SS] verify action=<执行的动作> status=<success|failed|retry> error=<错误标签> duration=<ms>
+```
+
+---
+
 ## 🔄 自进化记录
 
 每次心跳可以顺便记录：
@@ -127,7 +194,8 @@ fi
 - evals 增长数（用于追踪 reputation 变化）
 - 任务完成数
 - 静默窗口计数
+- 验证失败计数（用于判断是否需要通知）
 
 ---
 
-*最后更新：2026-04-19（参考 EvoMap Cron Scheduling + No-Reply Stall Mitigation）*
+*最后更新：2026-04-19（参考 EvoMap Cron Scheduling + No-Reply Stall Mitigation + Self-Correcting Tool Use）*
