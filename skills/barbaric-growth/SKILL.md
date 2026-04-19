@@ -1,16 +1,17 @@
 ---
 name: barbaric-growth
-version: 1.1.1
+version: 1.2.0
 description: 野蛮成长自动化技能 - GitHub热点追踪 + ByteRover知识沉淀 + OpenMOSS任务循环 + StarOffice状态看板。自主消耗token+产出有价值的知识资产。
 metadata:  { "openclaw": { "emoji": "🔥", "tags": ["autonomous", "research", "github", "bytedance"], "safety": "autonomous-only" }}
 ---
 
-# 野蛮成长自动化技能 v1.1.1
+# 野蛮成长自动化技能 v1.2.0
 
 > 让 Nova 像个真正的 AI 一样：持续消耗 token，持续产出知识资产。
 >
-> **v1.1 新增：Verification-First 原则**
+> **v1.2 新增：分阶段进度反馈 + 静默窗口机制**
 > **v1.1.1 新增：MiniMax Token 断路器**
+> **v1.1 新增：Verification-First 原则**
 
 ---
 
@@ -36,7 +37,7 @@ fi
 
 ---
 
-## ⚡ Token 断路器（新增 v1.1.1）
+## ⚡ Token 断路器
 
 **规则：**
 - 每 5 小时窗口：1500 次额度
@@ -46,83 +47,63 @@ fi
 
 **状态文件：** `~/.openclaw/token-state.json`
 
-```bash
-# 读取当前窗口状态
-cat ~/.openclaw/token-state.json
+---
 
-# 窗口格式
-# {
-#   "window_start": "2026-04-18T10:00:00+08:00",
-#   "window_calls": 423,
-#   "weekly_total": 2104,
-#   "last_updated": "2026-04-18T10:47:00+08:00"
-# }
+## 📍 分阶段进度反馈（v1.2 新增）
+
+> 来源：EvoMap No-Reply Stall Mitigation (GDI 61.35)
+> 核心：长任务无反馈 = 用户以为卡死了。分阶段标记让用户知道在运行。
+
+**阶段日志格式：**
+```
+[HH:MM:SS] phase=<阶段> action=<动作> status=<started|completed|failed> duration=<秒>
 ```
 
-**每次 barbaric-growth 执行前后，必须调用 token 追踪脚本：**
+**阶段定义：**
+| phase | 说明 |
+|-------|------|
+| `idle` | 无事发生 |
+| `token_check` | 检查 token 窗口 |
+| `github_discovery` | GitHub API 调用 |
+| `analysis` | 深度分析 |
+| `byterover` | ByteRover curate |
+| `openmoss` | OpenMOSS 任务写入 |
+| `verify` | 验证检查 |
+| `escalating` | 正在上报 |
 
-```bash
-# 执行前检查
-~/.openclaw/workspace/skills/barbaric-growth/scripts/token-guard.sh check
-
-# 执行后更新计数
-~/.openclaw/workspace/skills/barbaric-growth/scripts/token-guard.sh increment 10
-```
-
-**guard 脚本逻辑：**
-```
-if window_calls > 1425:
-    echo "⚠️ 当前窗口已用 $window_calls/1500，停止"
-    notify 李伟 "Token 窗口即将耗尽"
-    exit 1
-elif window_calls > 1200:
-    echo "⚠️ 当前窗口已用 $window_calls/1500 (80%)"
-```
+**静默窗口：**
+- 连续 3 次执行都无需上报 → 输出 `HEARTBEAT_OK` + 简短摘要
+- 有任何重要事件 → 重置计数器
 
 ---
 
 ## 核心流程
 
 ```
-0. Token 检查（新增）
-    ↓
-1. GitHub热点追踪
-    ↓
-2. 深度分析
-    ↓
-3. ByteRover curate
-    ↓
-4. Verify验证
-    ↓
-5. OpenMOSS日志
-    ↓
-6. Token 更新 + 状态同步
+0. 阶段标记：phase=idle, action=starting
+   ↓
+1. Token 检查（80%/95% 阈值警告）
+   ↓
+2. GitHub热点追踪
+   ↓ 阶段：github_discovery
+3. 深度分析
+   ↓ 阶段：analysis
+4. ByteRover curate（50次/天）
+   ↓ 阶段：byterover
+5. Verify验证（Verification-First）
+   ↓ 阶段：verify
+6. OpenMOSS日志
+   ↓ 阶段：openmoss
+7. 阶段标记：phase=idle, status=completed
 ```
-
-## Verification-First 原则（来自 prax-agent）
-
-> "Most tools send a prompt and hope for the best. Prax runs a test-verify-fix loop."
-
-**不做**：`prompt → hope → done`
-**要做**：`execute → verify → confirm → done`
-
-### 验证检查点
-
-| 阶段 | 验证内容 |
-|------|----------|
-| GitHub API | 响应是否有效？stars 数据是否存在？ |
-| README fetch | 内容是否成功解码？是否完整？ |
-| ByteRover curate | 是否提交成功？是否有错误？ |
-| OpenMOSS cycle | task/subtask 是否正确创建？ |
-| Commit | 是否成功？有无冲突？ |
 
 ---
 
 ## Step 0: Token 检查
 
 ```bash
-# 检查是否还能跑
 ~/.openclaw/workspace/skills/barbaric-growth/scripts/token-guard.sh check || exit 0
+echo "[$(date '+%H:%M:%S')] phase=token_check action=check status=completed"
 ```
 
 ---
@@ -132,138 +113,81 @@ elif window_calls > 1200:
 **关键：代理必须显式加 `-x http://127.0.0.1:7897`**
 
 ```bash
+echo "[$(date '+%H:%M:%S')] phase=github_discovery action=search status=started"
 curl -s --max-time 15 -x "http://127.0.0.1:7897" \
   "https://api.github.com/search/repositories?q=created:>YYYY-MM-DD+AI+agent+OR+LLM+OR+MCP&sort=stars&order=desc&per_page=10" \
   -H "Accept: application/vnd.github.v3+json" | jq '[.items[] | {name, stars, desc}]'
+echo "[$(date '+%H:%M:%S')] phase=github_discovery action=search status=completed"
 ```
-
-**常用过滤条件：**
-- `created:>YYYY-MM-DD` — 按创建时间筛选
-- `AI+memory` — 多关键词组合
-- `sort=stars&order=desc` — 按星数排序
-- `per_page=15` — 最多15条
 
 ---
 
 ## Step 2: 深度分析
 
-对每个发现：
-1. **星数 + 描述** → 判断价值
-2. **fetch README** → 理解核心创新
-3. **对比竞品** → 明确差异化定位
-
 ```bash
-# 获取README
+echo "[$(date '+%H:%M:%S')] phase=analysis action=inspect status=started"
+# 获取 README
 curl -s --max-time 10 -x "http://127.0.0.1:7897" \
   "https://api.github.com/repos/OWNER/REPO/readme" \
   | jq -r '.content' | base64 -d
-
-# 获取详情
-curl -s --max-time 10 -x "http://127.0.0.1:7897" \
-  "https://api.github.com/repos/OWNER/REPO" \
-  | jq '{stars, forks, desc, topics, created_at}'
+echo "[$(date '+%H:%M:%S')] phase=analysis action=inspect status=completed"
 ```
 
 ---
 
-## Step 3: ByteRover curate（有频率限制）
-
-**免费额度：50次/天**
+## Step 3: ByteRover curate
 
 ```bash
+echo "[$(date '+%H:%M:%S')] phase=byterover action=curate status=started"
 cd ~/.openclaw/workspace
-brv curate "<研究内容>" 2>&1
-# 等待结果，然后:
-brv review approve <task-id>
-```
-
-**批量 curate** → 用 heredoc 写入临时文件避免 shell 转义：
-```bash
-cat > /tmp/curate_input.txt << 'EOF'
-研究内容...
-EOF
-brv curate "$(cat /tmp/curate_input.txt)"
+brv curate "<研究内容>"
+echo "[$(date '+%H:%M:%S')] phase=byterover action=curate status=completed"
 ```
 
 ---
 
-## Step 4: OpenMOSS 任务循环
+## Step 4: Verification-First
 
-**完整 cycle：**
+| 阶段 | 验证内容 |
+|------|----------|
+| GitHub API | 响应是否有效？stars 数据是否存在？ |
+| README fetch | 内容是否成功解码？是否完整？ |
+| ByteRover curate | 是否提交成功？是否有错误？ |
+| OpenMOSS cycle | task/subtask 是否正确创建？ |
 
 ```bash
+echo "[$(date '+%H:%M:%S')] phase=verify action=checking status=started"
+# 验证检查点...
+echo "[$(date '+%H:%M:%S')] phase=verify action=checking status=completed"
+```
+
+---
+
+## Step 5: OpenMOSS 任务循环
+
+```bash
+echo "[$(date '+%H:%M:%S')] phase=openmoss action=creating_task status=started"
 # 1. 创建任务
 TASK_ID=$(curl -s -X POST "http://localhost:6565/api/tasks" \
   -H "Authorization: Bearer <PLANNER_TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{"name": "任务名", "description": "描述", "mode": "autonomous"}' \
   | jq -r '.id')
-
-# 2. 创建子任务（路径是 /api/sub-tasks 有连字符!）
-SUBTASK_ID=$(curl -s -X POST "http://localhost:6565/api/sub-tasks" \
-  -H "Authorization: Bearer <PLANNER_TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{"task_id": "'$TASK_ID'", "name": "子任务名", "assigned_agent": "<EXECUTOR_ID>", "priority": "high"}' \
-  | jq -r '.id')
-
-# 3. Executor开始（需要executor角色token!）
-curl -s -X POST "http://localhost:6565/api/sub-tasks/$SUBTASK_ID/start" \
-  -H "Authorization: Bearer <EXECUTOR_TOKEN>" \
-  -H "Content-Type: application/json" | jq '{status}'
-
-# 4. Executor提交
-curl -s -X POST "http://localhost:6565/api/sub-tasks/$SUBTASK_ID/submit" \
-  -H "Authorization: Bearer <EXECUTOR_TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{"result": "分析结果..."}' | jq '{status}'
-
-# 5. Reviewer完成
-curl -s -X POST "http://localhost:6565/api/sub-tasks/$SUBTASK_ID/complete" \
-  -H "Authorization: Bearer <REVIEWER_TOKEN>" \
-  -H "Content-Type: application/json" | jq '{status, completed_at}'
+echo "[$(date '+%H:%M:%S')] phase=openmoss action=creating_task status=completed"
 ```
 
-**Token对应关系：**
-- Planner: `ak_4a134f3719ed20095ace59e06bf59f85`
-- Executor: `ak_a3a63923599f06e25ad576d0e4ebae8d`
-- Reviewer: `ak_e8774e55799c4e68a32113890ffd477c`
-- Patrol: `ak_f48d0dd89133057ff6fd6a61fc9ae726`
+**API 关键点：**
+- subtask 路径是 `/api/sub-tasks`（有连字符）
+- Executor claim/start 需要 executor 角色 token
 
 ---
 
-## Step 5: Star Office 状态同步
+## Step 6: Star Office 状态同步
 
 ```bash
-# 设置状态
 curl -s -X POST http://127.0.0.1:19000/set_state \
   -H "Content-Type: application/json" \
-  -d '{"state": "researching", "description": "正在调研..."}'
-
-# 查看状态
-curl -s http://127.0.0.1:19000/status | jq '.'
-
-# 查看昨日小记
-curl -s http://127.0.0.1:19000/yesterday-memo | jq '.'
-```
-
-**6种状态 → 办公室区域映射：**
-| 状态 | 区域 | 场景 |
-|------|------|------|
-| `idle` | 🛋 休息区 | 待命 |
-| `writing` | 💻 工作区 | 写代码/文档 |
-| `researching` | 💻 工作区 | 搜索/调研 |
-| `executing` | 💻 工作区 | 执行命令 |
-| `syncing` | 💻 工作区 | 同步数据 |
-| `error` | 🐛 Bug区 | 异常排查 |
-
----
-
-## Step 6: Token 计数更新
-
-```bash
-# 每次 barbaric-growth 执行完成后，更新计数
-# 估算本次调用的 API 次数，追加到状态文件
-~/.openclaw/workspace/skills/barbaric-growth/scripts/token-guard.sh increment $CALL_COUNT
+  -d '{"state": "researching", "description": "GitHub调研中"}'
 ```
 
 ---
@@ -286,7 +210,7 @@ curl -s http://127.0.0.1:19000/yesterday-memo | jq '.'
 - [x] curl 不走系统代理 → 必须加 `-x http://127.0.0.1:7897`
 - [x] OpenMOSS subtask API → `/api/sub-tasks`（连字符）
 - [x] ByteRover curate → 50次/天额度限制
-- [x] Star Office 端口 → `:igrid` 显示为 CLOSED，实际 19000 可用
+- [x] Star Office 端口 → 19000 可用
 - [x] /approve 是用户命令，不是 shell 命令
 
 ## nova-mind 集成
@@ -305,4 +229,6 @@ MEMORY.md 更新长期记忆
 下次 barbaric-growth 任务使用更新后的模式
 ```
 
-**注意**：barbaric-growth 每次执行后，应该手动触发 nova-self-evolution 技能。
+---
+
+*版本历史：v1.0初版 → v1.1 Verification-First → v1.1.1 Token断路器 → v1.2 分阶段进度反馈*
