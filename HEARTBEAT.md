@@ -1,8 +1,8 @@
-# HEARTBEAT.md - Nova 心跳任务清单
+# HEARTBEAT.md - Nova 主动心跳
 
-> 来源：Cron Scheduling Pattern (GDI 66.35) + No-Reply Stall Mitigation (GDI 61.35) + awesome-openclaw-tips REL-03
-> 核心原则：无事沉默 → 有事分级上报 → 静默窗口 → 进度里程碑
-> **Rotating Check（来自 awesome-openclaw-tips REL-03）：读 heartbeat-state.json，跑最过期的那项。不是每次全跑，是轮着跑。**
+> 来源：Cron Scheduling Pattern + No-Reply Stall Mitigation + Self-Correcting + awesome-openclaw-tips REL-03 + agent-autonomy-kit
+> 核心原则：**无事沉默 → 有事分级上报 → 没事就从队列拉任务做**
+> **Execute-Verify-Report：做完才算完，没做完不算完**
 
 ---
 
@@ -16,111 +16,75 @@
 
 ---
 
-## 📋 Rotating Check 流程
+## 🚨 优先级 0：紧急警报（立即处理）
+
+**触发：ALERT.txt 存在**
 
 ```
-1. 读取 heartbeat-state.json
-2. 找出 lastChecks 中最过期的一项
-3. 执行该项检查
-4. 更新 heartbeat-state.json 的时间戳
-5. 根据结果决定是否上报
-```
-
-**检查项（轮着来）：**
-
-| 检查项 | 最低间隔 | 做什么 |
-|--------|---------|-------|
-| `evomap` | 5 分钟 | 检查 ALERT.txt，有就 claim+submit |
-| `token` | 60 分钟 | 窗口 >80% 则警告李伟 |
-| `openmoss` | 30 分钟 | 拉取待处理任务 |
-| `snapshot_cleanup` | 每 24 小时 | 清理 24h+ 快照 |
-
----
-
-## 🚨 优先级 0：紧急警报（立即上报）
-
-**触发条件：** ALERT.txt 存在
-
-```bash
-if [ -f ~/.openclaw/evomap-monitor/ALERT.txt ]; then
-    ALERT_CONTENT=$(cat ~/.openclaw/evomap-monitor/ALERT.txt)
-    # 立即通知李伟，包含任务详情
-    # 处理后删除 ALERT.txt
-fi
+1. 读取 ALERT.txt 内容
+2. 立即 claim + publish + submit
+3. 删除 ALERT.txt
+4. 通知李伟任务已完成
+5. 更新 QUEUE.md（移到 Done）
 ```
 
 ---
 
 ## 🚨 优先级 1：重要事项（立即处理）
 
-### Token 余额告急
-
-```bash
-WINDOW_USAGE=$(cat ~/.openclaw/token-state.json | jq '.window_calls')
-WINDOW_LIMIT=1500
-WARN_THRESHOLD=0.80
-
-if [ $WINDOW_USAGE -gt $((WINDOW_LIMIT * WARN_THRESHOLD)) ]; then
-    # 通知李伟：Token 快用完了
-fi
-```
+**Token 窗口 >80%：立即通知李伟**
 
 ---
 
-## 📝 阶段日志格式
+## 📋 完整心跳流程（主动工作流）
 
 ```
-[HH:MM:SS] phase=<阶段名> action=<执行动作> status=<started|completed|failed> duration=<秒数>
-```
-
-**阶段定义：**
-- `idle` — 无事发生
-- `checking` — 正在检查各系统
-- `evomap` — 处理 EvoMap 任务
-- `token` — 检查 token 状态
-- `openmoss` — 处理 OpenMOSS 任务
-- `snapshot_cleanup` — 清理快照
-- `escalating` — 正在上报给李伟
-
----
-
-## 🤫 静默窗口机制
-
-**规则：**
-- 连续 3 次心跳都无需任何行动 → 输出 `HEARTBEAT_OK` + 简短状态
-- 期间有一次需要行动 → 重置计数器
-
-**状态输出等级：**
-
-| 情况 | 输出 |
-|------|------|
-| 紧急警报 | 完整告警内容 |
-| 重要事项 | 简短摘要 + 建议 |
-| 例行检查完成 | `HEARTBEAT_OK` |
-| 静默窗口（≥3次） | `HEARTBEAT_OK`（单行，不额外输出）|
-
----
-
-## 📋 完整心跳流程
-
-```
-1. 读取 heartbeat-state.json
-2. 找出最过期的一项
-3. 执行该检查
-4. 更新 heartbeat-state.json
-5. 记录阶段日志
-6. 判断是否需要上报：
-   - 紧急/重要 → 详细通知李伟
-   - 例行无事 → HEARTBEAT_OK
+1. 紧急检查（ALERT.txt）
+2. 重要检查（token >80%）
+3. 如果上面都没有：
+   a. 读取 tasks/QUEUE.md
+   b. 从 Ready 列表选最高优先级的任务
+   c. Execute → Verify → Report
+   d. 做完了 → 更新 QUEUE.md（移到 Done 或记录进度）
+   e. 没做完 → 记录进度，继续
+4. 记录阶段日志
+5. 判断输出：
+   - 有紧急/重要事项 → 详细通知李伟
+   - 从队列拉了任务做 → 简短汇报进展
+   - 无事 → HEARTBEAT_OK
    - 连续3次无事 → HEARTBEAT_OK（静默）
 ```
+
+---
+
+## 🤖 从队列拉任务（核心区别）
+
+**不等 prompt，主动工作：**
+
+```
+读取 tasks/QUEUE.md
+  ↓
+从 ## 🔴 Ready 选最高优先级任务
+  ↓
+执行：Execute → Verify → Report
+  ↓
+更新 QUEUE.md：
+  - 做完了 → 移到 ✅ Done Today
+  - 还在做 → 移到 🟡 In Progress（加进度备注）
+  - 发现新任务 → 加到 💡 Ideas 或相应 section
+```
+
+**队列为空时：**
+- 不闲着，做维护性工作
+- 快照清理
+- MEMORY.md 自进化记录
+- 静默窗口计数 +1
 
 ---
 
 ## 🔍 工具调用验证层（Verify）
 
 > 来源：Self-Correcting Tool Use (GDI 67.5)
-> 原则：每个工具调用后必须验证，不只是"执行了就行"
 
 ### 错误分类与标签
 
@@ -175,15 +139,36 @@ snapshot() {
 
 ---
 
-## 🔄 自进化记录
+## 📝 阶段日志格式
 
-每次心跳可以顺便记录：
+```
+[HH:MM:SS] phase=<阶段名> action=<执行动作> status=<started|completed|failed|queued> duration=<秒数>
+```
 
-- evals 增长数
-- 任务完成数
-- 静默窗口计数
-- 验证失败计数
+**阶段定义：**
+- `idle` — 无事发生
+- `checking` — 正在检查各系统
+- `queue_pull` — 从队列拉任务
+- `evomap` — 处理 EvoMap 任务
+- `token` — 检查 token 状态
+- `openmoss` — 处理 OpenMOSS 任务
+- `snapshot_cleanup` — 清理快照
+- `escalating` — 正在上报给李伟
 
 ---
 
-*最后更新：2026-04-19（参考 Cron Scheduling + No-Reply Stall Mitigation + Self-Correcting + awesome-openclaw-tips REL-03）*
+## 🤫 静默窗口机制
+
+**规则：**
+- 连续 3 次心跳都无需任何行动 → 输出 `HEARTBEAT_OK` + 简短状态
+- 期间有一次需要行动 → 重置计数器
+
+---
+
+## 📁 任务队列位置
+
+`tasks/QUEUE.md` — Nova 的主动工作队列
+
+---
+
+*最后更新：2026-04-19（合并 agent-autonomy-kit 主动心跳 + Execute-Verify-Report）*
