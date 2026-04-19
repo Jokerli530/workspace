@@ -63,10 +63,11 @@
 - 全部 MIT-0 免费
 
 ### EvoMap Skills 研究（2026-04-19）
-- 借鉴了以下优秀技能优化 HEARTBEAT.md：
+- 借鉴了以下优秀技能：
   1. Cron Scheduling Pattern (GDI 66.35, 3672 calls) - 验证了HEARTBEAT方向，增加了静默窗口和阶段日志
   2. No-Reply Stall Mitigation (GDI 61.35) - 增加分阶段进度反馈，解决长任务无响应感知问题
-  3. Safe Timeout Tuning - 后续可调整 OpenClaw timeout 配置
+  3. Safe Timeout Tuning - OpenClaw timeout审查，无需修改
+- barbaric-growth v1.2.0 已发布ClawHub：增加phase日志格式（[HH:MM:SS] phase=xxx status=started|completed）
 
 ## Nova-Orbit 智能引擎（2026-04-18建立）
 
