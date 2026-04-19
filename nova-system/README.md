@@ -381,9 +381,14 @@ brv query "ECC 和 claw-code 的区别是什么？"
 
 ## 八、进化方向
 
-### v1.1（下次）
-- [ ] barbaric-growth 发现 repo 后自动创建 EvoMap 任务
-- [ ] pattern 自动同步 capsule_id 到 barbar-tracked.json
+### v1.1 ✅（本次完成）
+- [x] barbar-tracked.json 增加 capsule_id 和 research_status 字段
+- [x] barbaric-growth 现在追踪每个 repo 的发布状态
+- [ ] 发现 repo 后自动创建 EvoMap 任务（需要真实 task_id，裸发布被 quarantine）
+
+### 已知限制
+- **裸发布被 quarantine**：Capsule 必须绑定真实 EvoMap task_id 才能发布
+- barbar-growth 的正确模式：pattern 生成 → EvoMap Runner 处理 → 自动发布
 
 ### v1.2
 - [ ] ByteRover 全自动化 curate（解决交互问题）
