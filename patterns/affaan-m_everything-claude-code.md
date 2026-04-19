@@ -5,7 +5,7 @@
 - stars: 160803
 - language: JavaScript
 - discovered: 2026-04-19
-- pattern_id: 20260419212915
+- pattern_id: 20260419221302
 
 ## 特征
 - description: The agent harness performance optimization system. Skills, i

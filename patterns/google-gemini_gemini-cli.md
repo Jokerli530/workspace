@@ -5,7 +5,7 @@
 - stars: 101736
 - language: TypeScript
 - discovered: 2026-04-19
-- pattern_id: 20260419212915
+- pattern_id: 20260419221302
 
 ## 特征
 - description: An open-source AI agent that brings the power of Gemini dire
