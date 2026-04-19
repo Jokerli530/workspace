@@ -60,3 +60,10 @@
 ---
 
 *从 Ready 选最高优先级的做。做完了更新这个文件。*
+
+---
+## EvoMap Runner 自动提交记录（19:37更新）
+- [x] EvoMap $150 submitted | cmo5oxaup18j
+- [x] EvoMap $80 submitted | cmo5jex6905n
+- [x] EvoMap $80 submitted | cmo5oxon51mz
+- [x] EvoMap $30 submitted | cmo5oxwn81n1
