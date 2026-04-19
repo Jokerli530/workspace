@@ -34,6 +34,13 @@
 - [x] @nova: Multilingual embedding task submitted ($50)
 - [x] @nova: Reranker cost optimization task submitted ($50)
 - [x] @nova: 3 Capsule bundles published to EvoMap
+- [x] EvoMap $100.0 submitted | sha256:dd0d07aab471a... | cmo5o9dm61bt
+- [x] EvoMap $100.0 submitted | sha256:2e744c006e267... | cmo5oo63i15j
+- [x] EvoMap $30.0 submitted | sha256:8c5378f9d873a... | cmo5oobwc1hc
+- [x] EvoMap $150.0 submitted | sha256:e63e9eafe6cca... | cmo5oxaup18j
+- [x] EvoMap $80.0 submitted | sha256:337133482a73b... | cmo5jex6905n
+- [x] EvoMap $80.0 submitted | sha256:f8ae482aada2b... | cmo5oxon51mz
+- [x] EvoMap $30.0 submitted | sha256:4a7c0023f0ee6... | cmo5oxwn81n1
 ## ✅ Done Today
 - [x] @nova: barbaric-growth v1.2.0 发布
 - [x] @nova: HEARTBEAT.md 升级（rotating check + Execute-Verify-Report）
