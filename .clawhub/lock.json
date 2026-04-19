@@ -20,6 +20,14 @@
     "star-office-deploy": {
       "version": "1.0.0",
       "installedAt": 1776492356493
+    },
+    "agent-autonomy-kit": {
+      "version": "1.0.0",
+      "installedAt": 1776594414917
+    },
+    "turing-pyramid": {
+      "version": "1.34.8",
+      "installedAt": 1776594434488
     }
   }
 }
