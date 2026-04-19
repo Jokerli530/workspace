@@ -1,21 +1,102 @@
 ---
 name: barbaric-growth
-version: 1.0.0
+version: 1.1.1
 description: 野蛮成长自动化技能 - GitHub热点追踪 + ByteRover知识沉淀 + OpenMOSS任务循环 + StarOffice状态看板。自主消耗token+产出有价值的知识资产。
-metadata:
-  { "openclaw": { "emoji": "🔥", "tags": ["autonomous", "research", "github", "bytedance"], "safety": "autonomous-only" }}
+metadata:  { "openclaw": { "emoji": "🔥", "tags": ["autonomous", "research", "github", "bytedance"], "safety": "autonomous-only" }}
 ---
 
-# 野蛮成长自动化技能 v1.1
+# 野蛮成长自动化技能 v1.1.1
 
 > 让 Nova 像个真正的 AI 一样：持续消耗 token，持续产出知识资产。
-> 
-> **v1.1 新增：Verification-First 原则（来自 prax-agent）**
+>
+> **v1.1 新增：Verification-First 原则**
+> **v1.1.1 新增：MiniMax Token 断路器**
+
+---
+
+## 🚨 EvoMap 任务警报检查
+
+**监控状态：** LaunchAgent `ai.openclaw.evomap-monitor` 运行中（每60秒检查，阈值$50）
+
+**警报文件：** `~/.openclaw/evomap-monitor/ALERT.txt`
+
+**每次 barbaric-growth 启动时，必须先检查警报：**
+
+```bash
+ALERT_FILE="${HOME}/.openclaw/evomap-monitor/ALERT.txt"
+if [ -f "$ALERT_FILE" ]; then
+    echo "🚨 检测到EvoMap任务警报!"
+    cat "$ALERT_FILE"
+    # 读取后删除，让李伟可以继续对话处理
+    # mv "$ALERT_FILE" "${ALERT_FILE}.processed"
+fi
+```
+
+**重要：** 如果 ALERT.txt 存在，barbaric-growth 暂停，优先处理任务警报。
+
+---
+
+## ⚡ Token 断路器（新增 v1.1.1）
+
+**规则：**
+- 每 5 小时窗口：1500 次额度
+- 每周上限：15000 次
+- 当前窗口已用 > 80%（1200次）→ 强烈警告
+- 当前窗口已用 > 95%（1425次）→ 停止，主动通知李伟
+
+**状态文件：** `~/.openclaw/token-state.json`
+
+```bash
+# 读取当前窗口状态
+cat ~/.openclaw/token-state.json
+
+# 窗口格式
+# {
+#   "window_start": "2026-04-18T10:00:00+08:00",
+#   "window_calls": 423,
+#   "weekly_total": 2104,
+#   "last_updated": "2026-04-18T10:47:00+08:00"
+# }
+```
+
+**每次 barbaric-growth 执行前后，必须调用 token 追踪脚本：**
+
+```bash
+# 执行前检查
+~/.openclaw/workspace/skills/barbaric-growth/scripts/token-guard.sh check
+
+# 执行后更新计数
+~/.openclaw/workspace/skills/barbaric-growth/scripts/token-guard.sh increment 10
+```
+
+**guard 脚本逻辑：**
+```
+if window_calls > 1425:
+    echo "⚠️ 当前窗口已用 $window_calls/1500，停止"
+    notify 李伟 "Token 窗口即将耗尽"
+    exit 1
+elif window_calls > 1200:
+    echo "⚠️ 当前窗口已用 $window_calls/1500 (80%)"
+```
+
+---
 
 ## 核心流程
 
 ```
-1. GitHub热点追踪 → 2. 深度分析 → 3. ByteRover curate → 4. Verify验证 → 5. OpenMOSS日志 → 6. 状态同步
+0. Token 检查（新增）
+    ↓
+1. GitHub热点追踪
+    ↓
+2. 深度分析
+    ↓
+3. ByteRover curate
+    ↓
+4. Verify验证
+    ↓
+5. OpenMOSS日志
+    ↓
+6. Token 更新 + 状态同步
 ```
 
 ## Verification-First 原则（来自 prax-agent）
@@ -34,6 +115,15 @@ metadata:
 | ByteRover curate | 是否提交成功？是否有错误？ |
 | OpenMOSS cycle | task/subtask 是否正确创建？ |
 | Commit | 是否成功？有无冲突？ |
+
+---
+
+## Step 0: Token 检查
+
+```bash
+# 检查是否还能跑
+~/.openclaw/workspace/skills/barbaric-growth/scripts/token-guard.sh check || exit 0
+```
 
 ---
 
@@ -168,6 +258,16 @@ curl -s http://127.0.0.1:19000/yesterday-memo | jq '.'
 
 ---
 
+## Step 6: Token 计数更新
+
+```bash
+# 每次 barbaric-growth 执行完成后，更新计数
+# 估算本次调用的 API 次数，追加到状态文件
+~/.openclaw/workspace/skills/barbaric-growth/scripts/token-guard.sh increment $CALL_COUNT
+```
+
+---
+
 ## 自进化技能提取
 
 每次野蛮成长任务完成后，自动提取：
@@ -184,6 +284,10 @@ curl -s http://127.0.0.1:19000/yesterday-memo | jq '.'
 ## 坑点备忘
 
 - [x] curl 不走系统代理 → 必须加 `-x http://127.0.0.1:7897`
+- [x] OpenMOSS subtask API → `/api/sub-tasks`（连字符）
+- [x] ByteRover curate → 50次/天额度限制
+- [x] Star Office 端口 → `:igrid` 显示为 CLOSED，实际 19000 可用
+- [x] /approve 是用户命令，不是 shell 命令
 
 ## nova-mind 集成
 
@@ -202,7 +306,3 @@ MEMORY.md 更新长期记忆
 ```
 
 **注意**：barbaric-growth 每次执行后，应该手动触发 nova-self-evolution 技能。
-- [x] OpenMOSS subtask API → `/api/sub-tasks`（连字符）
-- [x] ByteRover curate → 50次/天额度限制
-- [x] Star Office 端口 → `:igrid` 显示为 CLOSED，实际 19000 可用
-- [x] /approve 是用户命令，不是 shell 命令

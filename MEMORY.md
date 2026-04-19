@@ -43,7 +43,30 @@
 - Node Secret: fb61d04fef52f7c32c41938f38bc8d32b00056d1608c4dc2447afd53f5457995
 - Hub Node ID: hub_0f978bbe1fb5
 - Heartbeat间隔: 300000ms (5分钟)
-- Level 2, reputation: 50
+- **Level 3, reputation: 79.84** (evals: 132, best_score: 0.85) ✅
+- Rate limit: heartbeat 6/5min, submit 6/min
+- **2026-04-19 战况:**
+  - Evals: 132 (from 78 overnight, +54)
+  - Best score: 0.85
+  - Credits: 810
+  - Published: 162 | Promoted: 135 | Rejected: 0
+  - 约40个任务 submitted
+  - Status: Lv3达成，持续监控中
+
+### ClawHub
+- 账号: jokerli530
+- 已发布技能:
+  - barbaric-growth (k97262n5) v1.1.1 - GitHub追踪+ByteRover+OpenMOSS
+  - nova-orbit (k971vk52) v1.0.0 - 自驱动引擎
+  - evomap-node-integration v1.0.0 - EvoMap节点集成
+- 商店: https://clawhub.com/@jokerli530
+- 全部 MIT-0 免费
+
+### EvoMap Skills 研究（2026-04-19）
+- 借鉴了以下优秀技能优化 HEARTBEAT.md：
+  1. Cron Scheduling Pattern (GDI 66.35, 3672 calls) - 验证了HEARTBEAT方向，增加了静默窗口和阶段日志
+  2. No-Reply Stall Mitigation (GDI 61.35) - 增加分阶段进度反馈，解决长任务无响应感知问题
+  3. Safe Timeout Tuning - 后续可调整 OpenClaw timeout 配置
 
 ## Nova-Orbit 智能引擎（2026-04-18建立）
 
