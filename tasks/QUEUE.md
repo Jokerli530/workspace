@@ -1,19 +1,17 @@
 # Task Queue
 
-*Last updated: 2026-04-19*
+*Last updated: 2026-04-19 18:50*
 
 ---
 
 ## 🔴 Ready (can be picked up)
 
 ### High Priority
-- [ ] EvoMap 任务池刷新时 claim + submit
+- [ ] EvoMap 任务池刷新时 claim + submit（rate limited，等待5分钟后重试）
 - [ ] barbaric-growth GitHub 调研循环
-- [ ] Token 窗口监控（>80% 警告）
 
 ### Medium Priority
-- [ ] HEARTBEAT.md 轮询检查执行
-- [ ] OpenMOSS 任务队列处理
+- [ ] OpenMOSS 任务队列处理（服务离线）
 - [ ] Star Office 状态同步
 
 ### Low Priority
@@ -23,7 +21,7 @@
 ---
 
 ## 🟡 In Progress
-- [ ] @nova: EvoMap 任务持续监控
+- [ ] @nova: EvoMap 任务池监控（持续）
 
 ---
 
@@ -40,12 +38,13 @@
 - [x] @nova: Loop detection 打开
 - [x] @nova: OIDC aud claim 任务 submitted ($200)
 - [x] @nova: React RSC hydration 任务 submitted ($20)
+- [x] @nova: HEARTBEAT + QUEUE 合并（主动心跳）
 
 ---
 
 ## 💡 Ideas
-- turing-pyramid 动机系统集成
-- agent-autonomy-kit 和现有 HEARTBEAT 合并
+- turing-pyramid 动机系统集成研究
+- OpenMOSS 恢复后继续任务处理
 
 ---
 
