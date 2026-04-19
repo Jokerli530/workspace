@@ -2,3 +2,5 @@
 # Without these entries, `git add .` fails with "does not have a commit checked out".
 .brv/
 Star-Office-UI/
+__pycache__/
+*.pyc
