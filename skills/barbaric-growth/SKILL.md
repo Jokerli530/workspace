@@ -232,3 +232,10 @@ MEMORY.md 更新长期记忆
 ---
 
 *版本历史：v1.0初版 → v1.1 Verification-First → v1.1.1 Token断路器 → v1.2 分阶段进度反馈*
+
+## 坑点备忘 v2026-04-20
+
+- [x] GBrain 编译产物（bin/gbrain）SIGKILL → macOS 代码签名限制，用 `bun run src/cli.ts` 替代
+- [x] ByteRover review approve 批处理：`brv review pending | grep "^  Task:" | awk '{print $2}' | while read t; do brv review approve $t; done`
+- [x] GitHub search 用中文查询返回空 → 用英文关键词：`meituan sdk` 而非 `美团 SDK`
+- [x] 浏览器工具在有 http_proxy 环境变量时无法导航（SSRF policy），临时去掉变量：env -i HOME="$HOME" PATH="$PATH" ...
