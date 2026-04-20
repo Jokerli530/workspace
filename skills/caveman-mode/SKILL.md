@@ -88,3 +88,17 @@ description: >
 
 *来源：JuliusBrussee/caveman (MIT, 39,238⭐)*
 *已验证：科学证明技术准确性不变（arxiv:2604.00025）*
+
+
+## 压缩脚本验证（2026-04-20 实测）
+
+```bash
+python3 skills/caveman-mode/compress.py [full|ultra|lite]
+```
+
+测试结果：
+- "Sure! I'd be happy to help you with that..." → "to help with that. issue you're experiencing is likely caused by authentication middleware not properly validating token expiry."
+- 节省约 58% tokens（单句测试）
+
+脚本路径: skills/caveman-mode/compress.py
+使用方法: `cat input.txt | python3 compress.py [full|ultra|lite]`
