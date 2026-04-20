@@ -202,4 +202,10 @@ Hermes Agent完整Rust重写，84k行Rust。
 - [ ] Star Office审批流集成
 
 ---
-*最后更新：2026-04-18 15:19*
+### GitHub Workspace Repo
+- URL: https://github.com/Jokerli530/workspace
+- 本地路径: ~/.openclaw/workspace
+- git push 已通（2026-04-20）
+
+---
+*最后更新：2026-04-20 14:03*
