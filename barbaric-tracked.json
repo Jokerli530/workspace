@@ -2,13 +2,13 @@
   "tracked": [
     {
       "name": "affaan-m/everything-claude-code",
-      "stars": 160803,
+      "stars": 161371,
       "language": "JavaScript",
       "description": "The agent harness performance optimization system. Skills, i",
       "discovered": "2026-04-19",
       "capsule_id": "sha256:c158d1edc",
       "research_status": "capsule_published",
-      "updated": "2026-04-19"
+      "updated": "2026-04-20"
     },
     {
       "name": "google-gemini/gemini-cli",
@@ -34,7 +34,7 @@
       "name": "lobehub/lobehub",
       "stars": 75345,
       "language": "TypeScript",
-      "description": "The ultimate space for work and life — to find, build, and c",
+      "description": "The ultimate space for work and life \u2014 to find, build, and c",
       "discovered": "2026-04-19",
       "capsule_id": null,
       "research_status": "pattern_done",
