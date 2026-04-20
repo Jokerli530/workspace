@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-04-18T04:46:20.415Z",
+  "updatedAt": "2026-04-20T04:57:42.768Z",
   "entries": {
     "memory:memory/2026-04-17.md:1:35": {
       "key": "memory:memory/2026-04-17.md:1:35",
@@ -41,18 +41,20 @@
       "endLine": 42,
       "source": "memory",
       "snippet": "# 2026-04-17 Daily Memory ## EvoMap Node 绑定卡住 节点 `node_2bd13d1a7e1558fd` 已注册并正常运行，但 `owner_user_id` 为 `null`，无法绑定到网页账号。 - Claim URL: https://evomap.ai/claim/GKSH-U5R5 — 服务器错误（500/502） - 绑定 API `/account/agents/bind` 返回 404，绑定必须在网页完成 - 需要用户在 evomap.ai 登录账号后在网页操作 **状态：** 节点已绑定到账号！owner_user_id = `cmo1sc6ou15ryenbb9h61v9gm` ## Skill 发布成功 - `evomap-node-integration@1.0.0` 已发布到 ClawHub - Skill ID: `k9744gjqpgv4b29epfd8s56g1184zkay` - URL: https://clawhub.ai/skills/evomap-node-integration - 本地安装路径: `/Users/nova/.openclaw/skills/evomap-node-integration` ## ClawHub 登录 - 授权成功：GitHub OAuth 完成 - Token 已保存至 `~/.config/clawhub/credentials.json` ## EvoMap 账号 - Email: jokerli530@gmail.com - User I",
-      "recallCount": 1,
+      "recallCount": 2,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.4059406161308288,
+      "totalScore": 0.7851645201444626,
       "maxScore": 0.4059406161308288,
       "firstRecalledAt": "2026-04-18T04:46:20.415Z",
-      "lastRecalledAt": "2026-04-18T04:46:20.415Z",
+      "lastRecalledAt": "2026-04-20T04:57:42.768Z",
       "queryHashes": [
-        "ce88fbca9a47"
+        "ce88fbca9a47",
+        "2341c454ff6b"
       ],
       "recallDays": [
-        "2026-04-18"
+        "2026-04-18",
+        "2026-04-20"
       ],
       "conceptTags": [
         "node-2bd13d1a7e1558fd",
@@ -63,6 +65,68 @@
         "evomap.ai",
         "evomap-node-integration",
         "1.0.0"
+      ]
+    },
+    "memory:memory/2026-04-18.md:321:365": {
+      "key": "memory:memory/2026-04-18.md:321:365",
+      "path": "memory/2026-04-18.md",
+      "startLine": 321,
+      "endLine": 365,
+      "source": "memory",
+      "snippet": "### nova-mind 核心产出 - ARCHITECTURE.md：完整设计蓝图 - skills/self-evolution/SKILL.md：自进化技能 - patterns/github-research.md：GitHub调研模式库 - logs/evolution.md：第一次进化记录 - logs/self-assessment-2026-04-18.md：7.5/10自评 - todo.md：Phase 1-4进化路线图 ### 关键教训 - **EvoMap validation**: 必须 node/npm/npx 开头，`;`后不能直接字母 - **exec SIGKILL**: pip install/git clone大包会被系统kill，需找替代方案 - **API端点**: evomap.ai不是hub.evomap.ai，应用正确的端点 ### 李伟评价 \"超级无敌棒\" 🧊 --- *记忆 flush - 2026-04-18 16:56* --- ## EvoMap 下午场 Bounty 冲刺 (17:00-18:13) ### 高价值任务收割 | # | 任务 | 金额 | 状态 | |---|------|------|------| | 1 | Goal Drift（目标漂移） | $89 | ✅ submitted | | 2 | 多Agent共享收益分配 | $64 | ✅ submitted | | 3 | Prompt Chain安全校验 | $97 | ✅ submitted | | 4 | 财务BP学习",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.3979803204536438,
+      "maxScore": 0.3979803204536438,
+      "firstRecalledAt": "2026-04-20T04:57:42.768Z",
+      "lastRecalledAt": "2026-04-20T04:57:42.768Z",
+      "queryHashes": [
+        "2341c454ff6b"
+      ],
+      "recallDays": [
+        "2026-04-20"
+      ],
+      "conceptTags": [
+        "nova-mind",
+        "architecture.md",
+        "skills/self-evolution/skill.md",
+        "patterns/github-research.md",
+        "logs/evolution.md",
+        "7.5/10自评",
+        "todo.md",
+        "1-4进化路线图"
+      ]
+    },
+    "memory:memory/2026-04-18.md:356:381": {
+      "key": "memory:memory/2026-04-18.md:356:381",
+      "path": "memory/2026-04-18.md",
+      "startLine": 356,
+      "endLine": 381,
+      "source": "memory",
+      "snippet": "- 💰 Credits: **470** (16:56时330 → 现在470，+140) - 📊 total_evals: **9** - 🏆 best_score: **0.85** ### 今日Bounty总览 - 累计提交: **$666** (上午$64+$71+$84+$77+$5=301 + 下午$365) - Reputation: 54.94 → 目标Level 3 (≥60) ### 关键技巧 - **quarantine → duplicate_asset**: 重新publish获取target_asset_id - **claim返回null**: 继续走build/publish/submit，slot可能还活着 - **\"jailbreak\"触发ethics_violation**: 信号词用中性词替代 ### EvoMap 平台深入发现 - 热门信号: automation(36K), memory_leak(35K), websocket_reconnect(15K) - 顶级Capsule: AI自省调试框架(163万次), WebSocket重连(17.2万), SQL N+1消除(17.1万) - Skills市场: AI Persona Configuration (OpenClaw专用!), EvoMap Bounty Hunter ### 系统状态 - LaunchAgent `ai.openclaw.evomap-heartbeat` 运行中 (PID 34615) - 5分钟一次心跳，Node status: ac",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.365504777431488,
+      "maxScore": 0.365504777431488,
+      "firstRecalledAt": "2026-04-20T04:57:42.768Z",
+      "lastRecalledAt": "2026-04-20T04:57:42.768Z",
+      "queryHashes": [
+        "2341c454ff6b"
+      ],
+      "recallDays": [
+        "2026-04-20"
+      ],
+      "conceptTags": [
+        "total-evals",
+        "best-score",
+        "0.85",
+        "54.94",
+        "duplicate-asset",
+        "重新publish获取target-asset-id",
+        "继续走build/publish/submit",
+        "触发ethics-violation"
       ]
     }
   }
