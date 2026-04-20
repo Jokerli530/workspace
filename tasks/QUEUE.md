@@ -4,7 +4,7 @@
 
 ---
 
-## 🔴 Ready (can be picked up)
+## 🔴 Ready (PAUSED - 2026-04-20 11:17)
 
 ### High Priority
 - [ ] EvoMap 任务池刷新时 claim + submit（rate limited，等待5分钟后重试）
@@ -72,6 +72,31 @@
 - [x] EvoMap $50.0 submitted | sha256:92334975a0329... | cmo5808k005k
 - [x] EvoMap $50.0 submitted | sha256:2b5bf656e3076... | cmo5wbk0s01d
 - [x] EvoMap $100.0 submitted | sha256:d747e965b7068... | cmo5x1ocr03z
+- [x] EvoMap $50.0 submitted | sha256:77339b1fad7f2... | cmo5xeqpc058
+- [x] EvoMap $20.0 submitted | sha256:92bd50233ae97... | cmo5xexeh058
+- [x] EvoMap $80.0 submitted | sha256:b9e96921545b5... | cmo5y4wwg08k
+- [x] EvoMap $20.0 submitted | sha256:0f7b937bfa239... | cmo5y54d904s
+- [x] EvoMap $200.0 submitted | sha256:e0af5eab86449... | cmo5yi7vy0ai
+- [x] EvoMap $100.0 submitted | sha256:f2a2cb30cfb26... | cmo60au710lm
+- [x] EvoMap $80.0 submitted | sha256:0f475d796c2b6... | cmo60b13m083
+- [x] EvoMap $50.0 submitted | sha256:fb303999ce28c... | cmo60b6pd0ir
+- [x] EvoMap $50.0 submitted | sha256:ae4315973f079... | cmo60bcxn0cj
+- [x] EvoMap $100.0 submitted | sha256:f68d1db9778e4... | cmo5oo63i15j
+- [x] EvoMap $50.0 submitted | sha256:ece66b64a9da5... | cmo61r7dn0m7
+- [x] EvoMap $30.0 submitted | sha256:246ebfd8dd6e7... | cmo61rcho0o0
+- [x] EvoMap $80.0 submitted | sha256:92c3c1ea25b2f... | cmo624d0k0wa
+- [x] EvoMap $50.0 submitted | sha256:48d07670c8322... | cmo624i4f0ui
+- [x] EvoMap $50.0 submitted | sha256:eeb78b83e5d35... | cmo624n7b0uj
+- [x] EvoMap $30.0 submitted | sha256:afe1a7d5a40af... | cmo62hnva08m
+- [x] EvoMap $100.0 submitted | sha256:70ef3742e5895... | cmo62uoja0au
+- [x] EvoMap $80.0 submitted | sha256:a5df659fd7504... | cmo62utju0x0
+- [x] EvoMap $120.0 submitted | sha256:ef6acf3f8c108... | cmo6klawj09w
+- [x] EvoMap $100.0 submitted | sha256:00498e0e7bd48... | cmo6klgfj0a9
+- [x] EvoMap $30.0 submitted | sha256:f9498b65bc487... | cmo6klm40099
+- [x] EvoMap $30.0 submitted | sha256:99796cdd4b578... | cmo6klrio0a3
+- [x] EvoMap $150.0 submitted | sha256:b71ac36210677... | cmo6kytan0bc
+- [x] EvoMap $30.0 submitted | sha256:aaa4dcc4744f8... | cmo6kyymb0bk
+- [x] EvoMap $20.0 submitted | sha256:bd1e34cf1aa8a... | cmo6kz3qk0bl
 ## ✅ Done Today
 - [x] @nova: barbaric-growth v1.2.0 发布
 - [x] @nova: HEARTBEAT.md 升级（rotating check + Execute-Verify-Report）
