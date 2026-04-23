@@ -228,6 +228,31 @@ bash "$WORKSPACE/skills/barbaric-growth/scripts/self-evo.sh" >> "$LOG" 2>&1 || t
 # Sync barbar-tracked.json with pattern files
 bash "$WORKSPACE/skills/barbaric-growth/scripts/sync-state.sh" >> "$LOG" 2>&1 || true
 
+# v1.6 增量发现：digest 模式下每 5 次跑一次关键词扫描（20% 概率）
+# 解决 discover 每天只跑 2 次导致新 repo 发现频率太低的问题
+if [ "$MODE" = "digest" ]; then
+    DIGEST_COUNT=$(python3 -c "
+import json, os
+s = '$STATE'
+d = {}
+if os.path.exists(s):
+    try: d = json.load(open(s))
+    except: d = {}
+n = d.get('lastChecks', {}).get('digest_count', 0) + 1
+d.setdefault('lastChecks', {})['digest_count'] = n
+with open(s, 'w') as fp: json.dump(d, fp)
+print(n)
+" 2>/dev/null || echo 1)
+    # 每 5 次 digest 跑一次关键词扫描（20%），避免过于频繁
+    if [ "$((DIGEST_COUNT % 5))" = "0" ]; then
+        KEYWORD=$(shuf -n1 "$WORKSPACE/skills/barbaric-growth/config/keywords.txt" 2>/dev/null | grep -v '^#' | grep -v '^$' | tr -d ' ')
+        if [ -n "$KEYWORD" ]; then
+            log "incremental_discovery keyword=$KEYWORD digest_count=$DIGEST_COUNT"
+            bash "$WORKSPACE/skills/barbaric-growth/scripts/keyword-scan.sh" "$KEYWORD" >> "$LOG" 2>&1 || true
+        fi
+    fi
+fi
+
 fi  # end DIGEST phase
 
 log "barbaric_growth_complete mode=$MODE"

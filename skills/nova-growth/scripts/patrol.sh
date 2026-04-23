@@ -95,15 +95,50 @@ if [ "${DISK_USE:-0}" -gt 90 ] 2>/dev/null; then
 fi
 
 # 6. pending proposals 太多（超过 10 条说明 Nova 没在审批）
+# 改进：只在"从低到高"的上升沿写 ALERT，解决重复警报问题
+STATE_FILE="$WORKSPACE/heartbeat-state.json"
+PREV_PENDING=$(python3 -c "
+import json, os
+f = '$STATE_FILE'
+if os.path.exists(f):
+    try:
+        d = json.load(open(f))
+        print(d.get('lastChecks', {}).get('proposals_pending', 0))
+    except: print(0)
+else: print(0)
+" 2>/dev/null || echo 0)
+
 PROPOSAL_DIR="$AGENT_DIR/proposals/pending"
 if [ -d "$PROPOSAL_DIR" ]; then
     PENDING_COUNT=$(ls "$PROPOSAL_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
-    log "proposals_pending=$PENDING_COUNT"
-    if [ "$PENDING_COUNT" -gt 10 ]; then
-        alert "Lisa 待审批提案堆了 ${PENDING_COUNT} 条 — Nova 请review"
-        ISSUES=$((ISSUES+1))
+else
+    PENDING_COUNT=0
+fi
+log "proposals_pending=$PENDING_COUNT (prev=$PREV_PENDING)"
+
+if [ "$PENDING_COUNT" -gt 10 ] && [ "$PREV_PENDING" -le 10 ]; then
+    alert "Lisa 待审批提案堆了 ${PENDING_COUNT} 条 — Nova 请review"
+    ISSUES=$((ISSUES+1))
+elif [ "$PENDING_COUNT" -le 10 ] && [ "$PREV_PENDING" -gt 10 ]; then
+    # 问题已解决，清除历史 ALERT 中同类型条目
+    if [ -f "$ALERT_FILE" ]; then
+        grep -v "待审批提案" "$ALERT_FILE" > "${ALERT_FILE}.tmp" 2>/dev/null && mv "${ALERT_FILE}.tmp" "$ALERT_FILE"
+        [ ! -s "$ALERT_FILE" ] && rm -f "$ALERT_FILE"
+        log "proposals_alert_cleared"
     fi
 fi
+
+# 更新状态
+python3 -c "
+import json, os
+f = '$STATE_FILE'
+d = {}
+if os.path.exists(f):
+    try: d = json.load(open(f))
+    except: d = {}
+d.setdefault('lastChecks', {})['proposals_pending'] = $PENDING_COUNT
+with open(f, 'w') as fp: json.dump(d, fp)
+" 2>/dev/null || true
 
 log "patrol_done issues=$ISSUES"
 
