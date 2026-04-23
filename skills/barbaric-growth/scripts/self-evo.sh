@@ -5,6 +5,7 @@
 WORKSPACE="/Users/nova/.openclaw/workspace"
 PATTERNS="$WORKSPACE/patterns"
 TRACKED="$WORKSPACE/barbaric-tracked.json"
+LLM_EXTRACT="$WORKSPACE/skills/barbaric-growth/scripts/llm-extract.sh"
 mkdir -p "$PATTERNS"
 
 # 找同语言的已有pattern（macOS compatible）
@@ -113,22 +114,52 @@ EOF
 
 echo "[$(date '+%H:%M:%S')] self-evo: starting"
 
-# 第一轮：创建所有pattern文件
+# 第一轮：只对 research_status != pattern_done 的 repo 提取 pattern（增量）
+PROCESSED_LIST=""
 if [ -f "$TRACKED" ]; then
-    python3 -c "
+    while IFS='|' read -r NAME STARS LANG DESC; do
+        [ -z "$NAME" ] && continue
+        extract_pattern "$NAME" "$STARS" "$LANG" "$DESC"
+        # P1: LLM deep analysis (DeepSeek) — non-fatal, static template stays as fallback
+        pattern_file="$PATTERNS/${NAME//\//_}.md"
+        if [ -x "$LLM_EXTRACT" ]; then
+            if bash "$LLM_EXTRACT" "$NAME" "$STARS" "$LANG" "$DESC" "$pattern_file" 2>>/tmp/barbaric-llm.log; then
+                echo "[$(date '+%H:%M:%S')] self-evo: LLM extracted $NAME"
+            else
+                echo "[$(date '+%H:%M:%S')] self-evo: LLM skipped $NAME (template only)"
+            fi
+        fi
+        PROCESSED_LIST="${PROCESSED_LIST}${NAME}
+"
+    done < <(python3 -c "
 import json
 with open('$TRACKED') as f:
     d = json.load(f)
 for r in d.get('tracked', []):
+    if r.get('research_status') == 'pattern_done':
+        continue
     name = r.get('name', '')
-    stars = r.get('stars', 0)
-    lang = r.get('language', 'Unknown')
-    desc = r.get('description', '')
     if name:
-        print(f'{name}|{stars}|{lang}|{desc}')
-" 2>/dev/null | while IFS='|' read -r NAME STARS LANG DESC; do
-        extract_pattern "$NAME" "$STARS" "$LANG" "$DESC"
-    done
+        print(f\"{name}|{r.get('stars',0)}|{r.get('language','Unknown')}|{r.get('description','')}\")
+" 2>/dev/null)
+
+    # 写回 research_status=pattern_done + 对齐 pending_research
+    python3 -c "
+import json, os
+processed = set(filter(None, '''$PROCESSED_LIST'''.strip().split('\n')))
+with open('$TRACKED') as f:
+    d = json.load(f)
+today = os.popen('date +%Y-%m-%d').read().strip()
+for r in d.get('tracked', []):
+    if r.get('name') in processed:
+        r['research_status'] = 'pattern_done'
+        r['updated'] = today
+# pending_research 只保留还没 pattern_done 的 repo（自动对齐）
+done_names = {r.get('name') for r in d.get('tracked', []) if r.get('research_status') == 'pattern_done'}
+d['pending_research'] = [n for n in d.get('pending_research', []) if n not in done_names]
+with open('$TRACKED', 'w') as f:
+    json.dump(d, f, indent=2)
+" 2>/dev/null
 fi
 
 # 第二轮：给所有pattern补充同语言sibling链接
@@ -162,4 +193,5 @@ ${siblings}" "$f" 2>/dev/null
 done
 
 count=$(ls $PATTERNS/*.md 2>/dev/null | wc -l | tr -d ' ')
-echo "[$(date '+%H:%M:%S')] self-evo: $count patterns total (siblings updated)"
+processed_count=$(printf "%s" "$PROCESSED_LIST" | grep -c . || true)
+echo "[$(date '+%H:%M:%S')] self-evo: $count patterns total, $processed_count new this cycle (siblings updated)"

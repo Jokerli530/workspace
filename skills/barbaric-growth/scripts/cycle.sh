@@ -1,10 +1,20 @@
 #!/bin/bash
-# barbaric-growth Runner v1.3 - Nova's autonomous research engine
-# Searches GitHub → discovers new repos → updates known repos → publishes EvoMap Capsules
+# barbaric-growth Runner v1.6 - Nova's autonomous research engine
+# Modes:
+#   --mode=full     (default) run everything in one pass (manual / first-time)
+#   --mode=discover GitHub trending + keyword scan only — low-frequency, ~2/day
+#   --mode=digest   ALERT check + LLM self-evo + ByteRover + heartbeat — high-frequency, 30min
 
 set -euo pipefail
 
-WORKSPACE=
+MODE="full"
+for arg in "$@"; do
+    case "$arg" in
+        --mode=*) MODE="${arg#--mode=}" ;;
+    esac
+done
+
+WORKSPACE="/Users/nova/.openclaw/workspace"
 
 # Prevent concurrent runs
 LOCK="$WORKSPACE/barbaric-growth-run.lock"
@@ -18,13 +28,36 @@ if [ -f "$LOCK" ]; then
 fi
 echo $$ > "$LOCK"
 trap "rm -f $LOCK" EXIT
-"/Users/nova/.openclaw/workspace"
-STATE="$WORKSPACE/heartbeat-state.json"
 LOG="/tmp/barbaric-growth.log"
+STATE="$WORKSPACE/heartbeat-state.json"
 BRV_STATE="$WORKSPACE/byterover-state.json"
 TRACKED="$WORKSPACE/barbaric-tracked.json"
 PROXY="-x http://127.0.0.1:7897"
 CYCLE_SCRIPT_DIR="$(dirname "$0")"
+ALERT_FILE="${HOME}/.openclaw/evomap-monitor/ALERT.txt"
+GH_SECRET_FILE="${HOME}/.openclaw/secrets/github.env"
+
+# GitHub PAT (optional — raises rate limit from 60/h to 5000/h)
+GH_AUTH=()
+if [ -f "$GH_SECRET_FILE" ]; then
+    # shellcheck disable=SC1090
+    . "$GH_SECRET_FILE"
+    if [ -n "${GITHUB_TOKEN:-}" ]; then
+        GH_AUTH=(-H "Authorization: Bearer $GITHUB_TOKEN")
+    fi
+fi
+
+log() {
+    echo "[$(date '+%H:%M:%S')] $1" >> "$LOG"
+}
+
+# EvoMap bounty alert — if monitor dropped ALERT.txt, surface then archive so it fires once per alert
+if [ -f "$ALERT_FILE" ]; then
+    log "evomap_alert_detected"
+    cat "$ALERT_FILE" >> "$LOG"
+    mv "$ALERT_FILE" "${ALERT_FILE}.processed.$(date +%s)"
+    exit 0
+fi
 
 # Check token guard
 bash "$WORKSPACE/skills/barbaric-growth/scripts/token-guard.sh" check 2>/dev/null || {
@@ -32,24 +65,32 @@ bash "$WORKSPACE/skills/barbaric-growth/scripts/token-guard.sh" check 2>/dev/nul
     exit 0
 }
 
-log() {
-    echo "[$(date '+%H:%M:%S')] $1" >> "$LOG"
-}
-
 init_tracked() {
     [ -f "$TRACKED" ] && return
     echo '{"tracked":[],"pending_research":[]}' > "$TRACKED"
 }
 
-log "barbaric_growth_start"
+log "barbaric_growth_start mode=$MODE"
 init_tracked
+
+# =========================================================================
+# DISCOVER PHASE — GitHub trending + keyword scan. Skip in digest mode.
+# =========================================================================
+if [ "$MODE" = "full" ] || [ "$MODE" = "discover" ]; then
 
 # 1. GitHub Trending - find interesting repos (AI/agent related)
 log "phase=github action=search"
 # Single combined query - reduces from 3 API calls to 1
-RAW=$(curl -s $PROXY \
-    "https://api.github.com/search/repositories?q=stars:>50000+language:rust+OR+language:typescript+pushed:>2026-01-01&sort=stars&per_page=10" \
-    -H "Accept: application/vnd.github.v3+json" 2>> "$LOG")
+if [ ${#GH_AUTH[@]} -gt 0 ]; then
+    RAW=$(curl -s --max-time 30 $PROXY \
+        "https://api.github.com/search/repositories?q=stars:>10000+pushed:>2026-04-01&sort=stars&per_page=10" \
+        -H "Accept: application/vnd.github.v3+json" \
+        "${GH_AUTH[@]}" 2>> "$LOG")
+else
+    RAW=$(curl -s --max-time 30 $PROXY \
+        "https://api.github.com/search/repositories?q=stars:>10000+pushed:>2026-04-01&sort=stars&per_page=10" \
+        -H "Accept: application/vnd.github.v3+json" 2>> "$LOG")
+fi
 TRENDING=$(echo "$RAW" | python3 -c "
 import sys,json
 try:
@@ -62,8 +103,8 @@ try:
             seen.add(name)
             print(f\"{name}|{r['stargazers_count']}|{r.get('language','')}|{r.get('description','')[:60]}\")
             count+=1
-except: pass
-" 2>> "$LOG")
+except Exception as e: print('PARSE_ERROR:', e, file=sys.stderr)
+" 2>> "$LOG") || TRENDING=""
 
 # Deduplicate and filter
 NEW_REPOS=$(echo "$TRENDING" | grep -v "^$" | sort -u -t'|' -k1,1 | head -5)
@@ -107,6 +148,19 @@ with open('$TRACKED', 'w') as f:
         fi
     fi
 done
+
+# 1b. Keyword-targeted scan (v1.5 P2) — catch newer/lower-star repos trending misses
+bash "$WORKSPACE/skills/barbaric-growth/scripts/keyword-scan.sh" >> "$LOG" 2>&1 || true
+
+fi  # end DISCOVER phase
+
+# =========================================================================
+# DIGEST PHASE — consume pending queue, LLM deep-dive, sink to ByteRover.
+# =========================================================================
+if [ "$MODE" = "full" ] || [ "$MODE" = "digest" ]; then
+
+# Ensure NEW_REPOS exists for digest-only runs (discover may have been skipped)
+NEW_REPOS="${NEW_REPOS:-}"
 
 # 2. Pending research check - high priority repos to deep dive
 PENDING=$(python3 -c "
@@ -165,16 +219,18 @@ try:
     s.setdefault('lastChecks', {})['barbaric'] = time.time()
     with open('$STATE', 'w') as f:
         json.dump(s, f)
-except: pass
-" 2>/dev/null
+except Exception as e: print('PARSE_ERROR:', e, file=sys.stderr)
+" >> "$LOG" 2>&1 || true
 
 # Self-evolution: extract patterns from newly researched repos
-bash "$WORKSPACE/skills/barbaric-growth/scripts/self-evo.sh" 2>/dev/null
+bash "$WORKSPACE/skills/barbaric-growth/scripts/self-evo.sh" >> "$LOG" 2>&1 || true
 
 # Sync barbar-tracked.json with pattern files
-bash "$WORKSPACE/skills/barbaric-growth/scripts/sync-state.sh" 2>/dev/null
+bash "$WORKSPACE/skills/barbaric-growth/scripts/sync-state.sh" >> "$LOG" 2>&1 || true
 
-log "barbaric_growth_complete"
+fi  # end DIGEST phase
+
+log "barbaric_growth_complete mode=$MODE"
 
 # GitHub API cache - 减少重复请求
 GITHUB_CACHE="$WORKSPACE/.github-cache.json"

@@ -1,14 +1,14 @@
-# Pattern: lobehub/lobehub
+# Pattern: freeCodeCamp/freeCodeCamp
 
 ## 元信息
-- repo: lobehub/lobehub
-- stars: 75345
+- repo: freeCodeCamp/freeCodeCamp
+- stars: 443225
 - language: TypeScript
 - discovered: 2026-04-21
-- pattern_id: 20260421104514
+- pattern_id: 20260421104515
 
 ## 特征
-- description: The ultimate space for work and life — to find, build, and c
+- description: freeCodeCamp.org's open-source codebase and curriculum. Lear
 
 ## 调研要点（TypeScript）
 - 框架选择（React/Vue/Node/Next.js）
@@ -17,10 +17,10 @@
 - 与OpenClaw的集成点
 
 ## 同语言Sibling项目
-  - freeCodeCamp/freeCodeCamp
   - google-gemini/gemini-cli
   - kamranahmedse/developer-roadmap
   - langgenius/dify
+  - lobehub/lobehub
   - openclaw/openclaw
 
 ## EvoMap Capsule

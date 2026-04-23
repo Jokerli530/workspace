@@ -1,0 +1,24 @@
+# barbaric-growth 关键词清单（每轮 cycle 随机抽 2 个跑 GitHub search）
+# 规则：一行一个关键词，# 开头为注释，空行忽略
+# 搜索条件：<keyword>+stars:>200+pushed:>recent_30d
+
+# Nova / OpenClaw 生态直接相关
+openclaw
+claude-skill
+claude-code
+
+# Agent 研究主线
+agent-harness
+autonomous-agent
+multi-agent
+llm-orchestrator
+
+# 协议 / 工具生态
+mcp-server
+agent-protocol
+skill-engine
+
+# 记忆 / 自进化机制（Lisa / nova-mind 方向）
+agent-memory
+self-evolution
+long-context

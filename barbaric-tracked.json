@@ -7,8 +7,8 @@
       "description": "The agent harness performance optimization system. Skills, i",
       "discovered": "2026-04-19",
       "capsule_id": "sha256:c158d1edc",
-      "research_status": "capsule_published",
-      "updated": "2026-04-20"
+      "research_status": "pattern_done",
+      "updated": "2026-04-19"
     },
     {
       "name": "google-gemini/gemini-cli",
@@ -34,7 +34,7 @@
       "name": "lobehub/lobehub",
       "stars": 75345,
       "language": "TypeScript",
-      "description": "The ultimate space for work and life \u2014 to find, build, and c",
+      "description": "The ultimate space for work and life — to find, build, and c",
       "discovered": "2026-04-19",
       "capsule_id": null,
       "research_status": "pattern_done",
@@ -47,15 +47,445 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lo",
       "discovered": "2026-04-19",
       "capsule_id": null,
+      "updated": "2026-04-22",
+      "research_status": "pattern_done"
+    },
+    {
+      "name": "EbookFoundation/free-programming-books",
+      "stars": 385741,
+      "language": "Python",
+      "description": ":books: Freely available programming books",
+      "discovered": "2026-04-20",
       "research_status": "pattern_done",
-      "updated": "2026-04-19"
+      "updated": "2026-04-19",
+      "capsule_id": null
+    },
+    {
+      "name": "freeCodeCamp/freeCodeCamp",
+      "stars": 443225,
+      "language": "TypeScript",
+      "description": "freeCodeCamp.org's open-source codebase and curriculum. Lear",
+      "discovered": "2026-04-20",
+      "research_status": "pattern_done",
+      "updated": "2026-04-19",
+      "capsule_id": null
+    },
+    {
+      "name": "kamranahmedse/developer-roadmap",
+      "stars": 353239,
+      "language": "TypeScript",
+      "description": "Interactive roadmaps, guides and other educational content t",
+      "discovered": "2026-04-20",
+      "research_status": "pattern_done",
+      "updated": "2026-04-19",
+      "capsule_id": null
+    },
+    {
+      "name": "sindresorhus/awesome",
+      "stars": 457086,
+      "language": "None",
+      "description": "😎 Awesome lists about all kinds of interesting topics",
+      "discovered": "2026-04-20",
+      "research_status": "pattern_done",
+      "updated": "2026-04-19",
+      "capsule_id": null
+    },
+    {
+      "name": "cline/cline",
+      "stars": 60572,
+      "language": "TypeScript",
+      "description": "Autonomous coding agent right in your IDE, capable of creating/editing files, ex",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:autonomous-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "crewAIInc/crewAI",
+      "stars": 49538,
+      "language": "Python",
+      "description": "Framework for orchestrating role-playing, autonomous AI agents. By fostering col",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:autonomous-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "CherryHQ/cherry-studio",
+      "stars": 44065,
+      "language": "TypeScript",
+      "description": "AI productivity studio with smart chat, autonomous agents, and 300+ assistants.",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:autonomous-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "khoj-ai/khoj",
+      "stars": 34191,
+      "language": "Python",
+      "description": "Your AI second brain. Self-hostable. Get answers from the web or your docs. Buil",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:autonomous-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "ruvnet/ruflo",
+      "stars": 32771,
+      "language": "TypeScript",
+      "description": "🌊 The leading agent orchestration platform for Claude. Deploy intelligent multi-",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:autonomous-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "ymcui/Chinese-LLaMA-Alpaca-2",
+      "stars": 7148,
+      "language": "Python",
+      "description": "中文LLaMA-2 & Alpaca-2大模型二期项目 + 64K超长上下文模型 (Chinese LLaMA-2 & Alpaca-2 LLMs with 6",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:long-context",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "gsd-build/gsd-2",
+      "stars": 6387,
+      "language": "TypeScript",
+      "description": "A powerful meta-prompting, context engineering and spec-driven development syste",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:long-context",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "Xnhyacinth/Awesome-LLM-Long-Context-Modeling",
+      "stars": 1971,
+      "language": "None",
+      "description": "📰 Must-read papers and blogs on LLM based Long Context Modeling 🔥",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:long-context",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "PKU-YuanGroup/Helios",
+      "stars": 1716,
+      "language": "Python",
+      "description": "Helios: Real Real-Time Long Video Generation Model",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:long-context",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "microsoft/MInference",
+      "stars": 1205,
+      "language": "Python",
+      "description": "[NeurIPS'24 Spotlight, ICLR'25, ICML'25] To speed up Long-context LLMs' inferenc",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:long-context",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "CopilotKit/CopilotKit",
+      "stars": 30379,
+      "language": "TypeScript",
+      "description": "The Frontend Stack for Agents & Generative UI. React + Angular.  Makers of the A",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:agent-protocol",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "a2aproject/A2A",
+      "stars": 23359,
+      "language": "Shell",
+      "description": "Agent2Agent (A2A) is an open protocol enabling communication and interoperabilit",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:agent-protocol",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "ag-ui-protocol/ag-ui",
+      "stars": 13141,
+      "language": "Python",
+      "description": "AG-UI: the Agent-User Interaction Protocol. Bring Agents into Frontend Applicati",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:agent-protocol",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "EvoMap/evolver",
+      "stars": 6489,
+      "language": "JavaScript",
+      "description": "The GEP-powered self-evolving engine for AI agents. Auditable evolution with Gen",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:agent-protocol",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "getsentry/XcodeBuildMCP",
+      "stars": 5294,
+      "language": "TypeScript",
+      "description": "A Model Context Protocol (MCP) server and CLI that provides tools for agent use",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:agent-protocol",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "muratcankoylan/Agent-Skills-for-Context-Engineering",
+      "stars": 15236,
+      "language": "Python",
+      "description": "A comprehensive collection of Agent Skills for context engineering, multi-agent",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:skill-engine",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "Ed1s0nZ/CyberStrikeAI",
+      "stars": 3427,
+      "language": "Go",
+      "description": "CyberStrikeAI is an AI-native security testing platform built in Go. It integrat",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:skill-engine",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "IvanMurzak/Unity-MCP",
+      "stars": 2281,
+      "language": "C#",
+      "description": "AI Skills, MCP Tools, and CLI for Unity Engine. Full AI develop and test loop. U",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:skill-engine",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "openclaw/lobster",
+      "stars": 1151,
+      "language": "TypeScript",
+      "description": "Lobster is a Openclaw-native workflow shell: a typed, local-first “macro engine”",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:skill-engine",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "Aas-ee/open-webSearch",
+      "stars": 1032,
+      "language": "TypeScript",
+      "description": "Multi-engine MCP server, CLI, and local daemon for agent web search and content",
+      "discovered": "2026-04-22",
+      "discovered_via": "keyword:skill-engine",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "bytedance/deer-flow",
+      "stars": 63457,
+      "language": "Python",
+      "description": "An open-source long-horizon SuperAgent harness that researches, codes, and creat",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:multi-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "TauricResearch/TradingAgents",
+      "stars": 52442,
+      "language": "Python",
+      "description": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:multi-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "zhayujie/CowAgent",
+      "stars": 43640,
+      "language": "Python",
+      "description": "CowAgent (chatgpt-on-wechat) 是基于大模型的超级AI助理，能主动思考和任务规划、访问操作系统和外部资源、创造和执行Skills、通过",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:multi-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "danny-avila/LibreChat",
+      "stars": 35879,
+      "language": "TypeScript",
+      "description": "Enhanced ChatGPT Clone: Features Agents, MCP, DeepSeek, Anthropic, AWS, OpenAI,",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:multi-agent",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "n8n-io/n8n",
+      "stars": 185186,
+      "language": "TypeScript",
+      "description": "Fair-code workflow automation platform with native AI capabilities. Combine visu",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:mcp-server",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "punkpeye/awesome-mcp-servers",
+      "stars": 85381,
+      "language": "None",
+      "description": "A collection of MCP servers.",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:mcp-server",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "sansan0/TrendRadar",
+      "stars": 54541,
+      "language": "Python",
+      "description": "⭐AI-driven public opinion & trend monitor with multi-platform aggregation, RSS,",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:mcp-server",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "upstash/context7",
+      "stars": 53480,
+      "language": "TypeScript",
+      "description": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:mcp-server",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "holaboss-ai/holaOS",
+      "stars": 3185,
+      "language": "TypeScript",
+      "description": "The agent environment for long-horizon work, continuity, and self-evolution.",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:self-evolution",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "NousResearch/hermes-agent-self-evolution",
+      "stars": 2118,
+      "language": "Python",
+      "description": "⚒ Evolutionary self-improvement for Hermes Agent — optimize skills, prompts, and",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:self-evolution",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "ghostwright/phantom",
+      "stars": 1359,
+      "language": "TypeScript",
+      "description": "An AI co-worker with its own computer. Self-evolving, persistent memory, MCP ser",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:self-evolution",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "Human-Agent-Society/CORAL",
+      "stars": 514,
+      "language": "Python",
+      "description": "CORAL is a robust, lightweight infrastructure for multi-agent autonomous self-ev",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:self-evolution",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "NousResearch/hermes-agent",
+      "stars": 111145,
+      "language": "Python",
+      "description": "The agent that grows with you",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:openclaw",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "infiniflow/ragflow",
+      "stars": 78785,
+      "language": "Python",
+      "description": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine tha",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:openclaw",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "farion1231/cc-switch",
+      "stars": 49322,
+      "language": "Rust",
+      "description": "A cross-platform desktop All-in-One assistant tool for Claude Code, Codex, OpenC",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:openclaw",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
+    },
+    {
+      "name": "VoltAgent/awesome-openclaw-skills",
+      "stars": 46980,
+      "language": "None",
+      "description": "The awesome collection of OpenClaw skills. 5,400+ skills filtered and categorize",
+      "discovered": "2026-04-23",
+      "discovered_via": "keyword:openclaw",
+      "research_status": "pattern_done",
+      "updated": "2026-04-23",
+      "capsule_id": null
     }
   ],
-  "pending_research": [
-    "affaan-m/everything-claude-code",
-    "google-gemini/gemini-cli",
-    "langgenius/dify",
-    "lobehub/lobehub",
-    "openclaw/openclaw"
-  ]
+  "pending_research": []
 }

@@ -4,7 +4,7 @@
 
 ---
 
-## 🔴 Ready (PAUSED - 2026-04-20 11:17)
+## 🔴 Ready - 2026-04-20 11:17)
 
 ### High Priority
 - [ ] EvoMap 任务池刷新时 claim + submit（rate limited，等待5分钟后重试）

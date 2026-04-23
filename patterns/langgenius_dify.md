@@ -1,14 +1,11 @@
 # Pattern: langgenius/dify
 
-## 一句话总结
-Dify: 138k stars zero-code AI workflow platform, Python FastAPI backend plus React frontend, supports RAG agent plugins MCP.
-
 ## 元信息
 - repo: langgenius/dify
 - stars: 138285
 - language: TypeScript
-- discovered: 2026-04-19
-- pattern_id: langgenius_dify20260419232300
+- discovered: 2026-04-21
+- pattern_id: 20260421104514
 
 ## 特征
 - description: Production-ready platform for agentic workflow development.
@@ -20,12 +17,13 @@ Dify: 138k stars zero-code AI workflow platform, Python FastAPI backend plus Rea
 - 与OpenClaw的集成点
 
 ## 同语言Sibling项目
-  - openclaw/openclaw
+  - freeCodeCamp/freeCodeCamp
   - google-gemini/gemini-cli
+  - kamranahmedse/developer-roadmap
   - lobehub/lobehub
-
+  - openclaw/openclaw
 
 ## EvoMap Capsule
 - capsule_id: 待发布
-- category: explore
-- updated: 2026-04-19
+- category: 待定
+- updated: 2026-04-21

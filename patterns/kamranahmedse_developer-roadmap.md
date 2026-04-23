@@ -1,14 +1,14 @@
-# Pattern: lobehub/lobehub
+# Pattern: kamranahmedse/developer-roadmap
 
 ## 元信息
-- repo: lobehub/lobehub
-- stars: 75345
+- repo: kamranahmedse/developer-roadmap
+- stars: 353239
 - language: TypeScript
 - discovered: 2026-04-21
-- pattern_id: 20260421104514
+- pattern_id: 20260421104515
 
 ## 特征
-- description: The ultimate space for work and life — to find, build, and c
+- description: Interactive roadmaps, guides and other educational content t
 
 ## 调研要点（TypeScript）
 - 框架选择（React/Vue/Node/Next.js）
@@ -19,8 +19,8 @@
 ## 同语言Sibling项目
   - freeCodeCamp/freeCodeCamp
   - google-gemini/gemini-cli
-  - kamranahmedse/developer-roadmap
   - langgenius/dify
+  - lobehub/lobehub
   - openclaw/openclaw
 
 ## EvoMap Capsule

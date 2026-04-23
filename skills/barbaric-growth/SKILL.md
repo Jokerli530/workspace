@@ -1,14 +1,17 @@
 ---
 name: barbaric-growth
-version: 1.2.0
+version: 1.5.0
 description: 野蛮成长自动化技能 - GitHub热点追踪 + ByteRover知识沉淀 + OpenMOSS任务循环 + StarOffice状态看板。自主消耗token+产出有价值的知识资产。
 metadata:  { "openclaw": { "emoji": "🔥", "tags": ["autonomous", "research", "github", "bytedance"], "safety": "autonomous-only" }}
 ---
 
-# 野蛮成长自动化技能 v1.2.0
+# 野蛮成长自动化技能 v1.5.0
 
 > 让 Nova 像个真正的 AI 一样：持续消耗 token，持续产出知识资产。
 >
+> **v1.5 新增：关键词定向搜索（补 trending 漏网）+ 同作者跨语言 sibling 关联**
+> **v1.4 新增：LLM 深度提炼（DeepSeek）+ 同语言 prior context 复用闭环**
+> **v1.3 新增：GitHub PAT 认证（60→5000 req/h）+ ALERT.txt 实装 + self-evo 增量处理**
 > **v1.2 新增：分阶段进度反馈 + 静默窗口机制**
 > **v1.1.1 新增：MiniMax Token 断路器**
 > **v1.1 新增：Verification-First 原则**
@@ -21,19 +24,19 @@ metadata:  { "openclaw": { "emoji": "🔥", "tags": ["autonomous", "research", "
 
 **警报文件：** `~/.openclaw/evomap-monitor/ALERT.txt`
 
-**每次 barbaric-growth 启动时，必须先检查警报：**
+**每次 barbaric-growth 启动时，必须先检查警报**（v1.3 已在 `cycle.sh` 中实装）：
 
 ```bash
 ALERT_FILE="${HOME}/.openclaw/evomap-monitor/ALERT.txt"
 if [ -f "$ALERT_FILE" ]; then
-    echo "🚨 检测到EvoMap任务警报!"
-    cat "$ALERT_FILE"
-    # 读取后删除，让李伟可以继续对话处理
-    # mv "$ALERT_FILE" "${ALERT_FILE}.processed"
+    log "evomap_alert_detected"
+    cat "$ALERT_FILE" >> "$LOG"
+    mv "$ALERT_FILE" "${ALERT_FILE}.processed.$(date +%s)"
+    exit 0
 fi
 ```
 
-**重要：** 如果 ALERT.txt 存在，barbaric-growth 暂停，优先处理任务警报。
+**重要：** 如果 ALERT.txt 存在，barbaric-growth 暂停并归档警报（带时间戳），下个 cycle 继续正常跑；监控脚本发现新警报会再生成 ALERT.txt。
 
 ---
 
@@ -231,7 +234,55 @@ MEMORY.md 更新长期记忆
 
 ---
 
-*版本历史：v1.0初版 → v1.1 Verification-First → v1.1.1 Token断路器 → v1.2 分阶段进度反馈*
+*版本历史：v1.0初版 → v1.1 Verification-First → v1.1.1 Token断路器 → v1.2 分阶段进度反馈 → v1.3 PAT认证+ALERT实装+增量self-evo → v1.4 LLM深度提炼+prior context 复用 → v1.5 关键词扫描+作者关联*
+
+## v1.5 关键词扫描 + 作者关联
+
+**关键词扫描** (`scripts/keyword-scan.sh`)：
+- 每轮 cycle 随机抽 2 个关键词跑 `<kw>+stars:>200+pushed:>30d` 搜索，门槛比主 trending 低得多
+- 关键词清单在 `config/keywords.txt`，分 4 组：OpenClaw 生态 / Agent 研究 / 协议工具 / 记忆进化
+- 捕获的 repo 带 `discovered_via: keyword:<kw>` 元信息写入 tracked.json
+- 首次测试即从 2 个关键词里捞到 10 个 30k+ stars 的遗漏项目（cline / crewAI / cherry-studio 等）
+
+**作者跨语言关联** (`llm-extract.sh` 内 `fetch_author_siblings`)：
+- 拉 README 的同时调 `GET /users/<owner>/repos?sort=updated&per_page=20`
+- 过滤 forks，按 stars 排序取 top 5
+- 作为"该作者的其他项目"段传给 DeepSeek，LLM 可直接引用
+- prompt 中明确要求："如果该作者还有其他相关项目，点出本项目在其作者生态里的定位"
+
+**闭环验证**：cline/cline 的深度分析里自动引用了作者生态（prompts, mcp-marketplace, kanban, cline-bench）——cross-language sibling context 生效。
+
+## v1.4 LLM 深度提炼闭环
+
+每次处理新 repo 时，`self-evo.sh` 先写静态模板骨架，再调 `scripts/llm-extract.sh` 追加"## 深度分析（LLM 提炼）"段：
+
+1. **拉 README**（GitHub API，6KB cap）
+2. **找 prior context**（patterns/ 里同语言的 top-3 已研究项目 + 核心定位摘要）
+3. **调 DeepSeek**（deepseek-chat，temperature 0.3，max 800 tokens）
+4. **5 段输出**：核心定位 / 技术栈 / 独特机制 / 与 OpenClaw 集成可能 / 值得深入的点
+5. **写回**：pattern 文件追加深度分析段 + 元信息加 `content_source: llm` 标记
+
+**复用闭环**：越后发现的同语言 repo，能对比越多已研究 sibling → LLM 输出越有区分度。
+
+**失败 fallback**：DeepSeek 超时/API key 缺失 → 静态模板保留，pattern 依然可用，不影响 cycle。
+
+**成本**：单 repo 约 0.001 元（~1.5k input tokens + 800 output tokens）。9 个 repo 一轮约 0.01 元。
+
+## GitHub PAT 配置（v1.3 新增）
+
+```bash
+mkdir -p ~/.openclaw/secrets
+chmod 700 ~/.openclaw/secrets
+cat > ~/.openclaw/secrets/github.env << 'EOF'
+GITHUB_TOKEN=ghp_你自己生成的PAT
+EOF
+chmod 600 ~/.openclaw/secrets/github.env
+```
+
+PAT 生成入口：GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens。
+**权限只勾 Public repositories 即可**（不需要任何写权限）。rate limit 60→5000 req/h。
+
+文件不存在时 cycle.sh 自动退回未认证模式，不会报错。
 
 ## 坑点备忘 v2026-04-20
 
