@@ -7,6 +7,7 @@ LOG="/tmp/nova-patrol.log"
 LOCK="$WORKSPACE/nova-patrol.lock"
 ALERT_FILE="$HOME/.openclaw/evomap-monitor/ALERT.txt"
 AGENT_DIR="/Users/nova/agent"
+EVOLUTION_LOG="$WORKSPACE/nova-mind/evolution-log.md"
 NOW=$(date '+%Y-%m-%d %H:%M:%S')
 TS=$(date +%s)
 
@@ -141,6 +142,9 @@ with open(f, 'w') as fp: json.dump(d, fp)
 " 2>/dev/null || true
 
 log "patrol_done issues=$ISSUES"
+
+# Self-review: 轻量自检，发现重复问题触发改进
+bash "$WORKSPACE/skills/nova-growth/scripts/self-review.sh" >> "$EVOLUTION_LOG" 2>&1 || true
 
 # 轮转日志，避免无限膨胀
 if [ -f "$LOG" ]; then
