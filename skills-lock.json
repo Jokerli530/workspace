@@ -5,6 +5,12 @@
       "source": "memos-local-openclaw-plugin",
       "sourceType": "plugin",
       "computedHash": ""
+    },
+    "serenity-aleabitoreddit": {
+      "source": "yan-labs/serenity-aleabitoreddit",
+      "sourceType": "github",
+      "skillPath": "serenity-aleabitoreddit/SKILL.md",
+      "computedHash": "47e63e83c966c1e60e4ae5dee8e01aa44fdc96a6f3961689c0ff4a3fb6bc251d"
     }
   }
 }
