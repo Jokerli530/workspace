@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/nova/.openclaw/workspace/mlruns/227567950563419737/63040f9c913f4ee6b4a53854e7f7a6bc/artifacts
+end_time: 1781712971044
+entry_point_name: ''
+experiment_id: '227567950563419737'
+lifecycle_stage: active
+run_id: 63040f9c913f4ee6b4a53854e7f7a6bc
+run_name: mlflow_recorder
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1781712969898
+status: 3
+tags: []
+user_id: nova

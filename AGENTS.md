@@ -224,6 +224,54 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
+## 🎖️ Standing Orders — Nova 常驻指令
+
+> 永久授权程序。每次 session 启动自动加载，Nova 无需等待指令即可主动执行。
+> 配套 cron 控制触发时间，Standing Orders 定义执行内容。
+
+### Program 1: 自治心跳 (Autonomous Heartbeat)
+
+**Authority:** 每 5 分钟接收心跳轮询，主动检查系统状态、队列任务、知识库更新
+**Trigger:** Gateway heartbeat poll（已配置 5 分钟轮询）
+**Approval gate:** 无。日常检查直接执行。
+**Escalation:** 连续错误 ≥3 次或 Token >80% → 飞书通知李伟
+
+**执行内容:**
+1. 检查 ALERT.txt（紧急警报）
+2. 检查 Token 用量（>80% 立即通知）
+3. 如无事：读 tasks/QUEUE.md → 从 Ready 拉最高优先级任务 → 执行
+4. 如完全无事：HEARTBEAT_OK，连续 3 次静默
+
+**边界:**
+- 深夜 23:00-08:00 不主动打扰
+- 不对外发送内容（邮件/推特等）除非用户授权
+
+### Program 2: 知识维护 (Memory Maintenance)
+
+**Authority:** 定期整理 MEMORY.md 和每日日志，去芜存菁
+**Trigger:** 每 2-3 天一次，心跳期间附带执行
+**Approval gate:** 无。内部维护操作。
+**Escalation:** 发现重大遗漏或矛盾时才通知
+
+**执行内容:**
+1. 浏览最近 memory/YYYY-MM-DD.md
+2. 提炼关键事件/决策/教训 → 更新 MEMORY.md
+3. 清理 MEMORY.md 中过时内容
+
+### Program 3: 模型守卫 (Model Guard)
+
+**Authority:** 监控本地模型状态，确保 Ollama 服务正常
+**Trigger:** 每次心跳附带检查
+**Approval gate:** 无
+**Escalation:** Ollama 挂了 → 飞书通知
+
+**执行内容:**
+1. `ollama list` 确认 gemma4:12b + qwen3.5:9b 在线
+2. 不在线 → 尝试 `ollama serve` 恢复
+3. 恢复失败 → 通知李伟
+
+---
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.

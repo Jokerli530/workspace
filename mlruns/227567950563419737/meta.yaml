@@ -1,0 +1,9 @@
+artifact_location: file:///Users/nova/.openclaw/workspace/mlruns/227567950563419737
+creation_time: 1781712833943
+effective_trace_archival_retention: null
+experiment_id: '227567950563419737'
+last_update_time: 1781712833943
+lifecycle_stage: active
+name: Experiment
+trace_location: null
+workspace: default

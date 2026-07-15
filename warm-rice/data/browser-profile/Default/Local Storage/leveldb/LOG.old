@@ -1,0 +1,5 @@
+2026/06/07-23:58:32.721 36ba39 Creating DB /Users/nova/.openclaw/workspace/warm-rice/data/browser-profile/Default/Local Storage/leveldb since it was missing.
+2026/06/07-23:58:32.724 36ba39 Reusing MANIFEST /Users/nova/.openclaw/workspace/warm-rice/data/browser-profile/Default/Local Storage/leveldb/MANIFEST-000001
+2026/06/07-23:59:32.728 36ba3e Level-0 table #5: started
+2026/06/07-23:59:32.744 36ba3e Level-0 table #5: 1971924 bytes OK
+2026/06/07-23:59:32.746 36ba3e Delete type=0 #3

@@ -934,6 +934,49 @@
       "research_status": "pattern_done",
       "updated": "2026-06-19",
       "capsule_id": null
+    },
+    {
+      "name": "anysearch-ai/anysearch-mcp-server",
+      "stars": 1330,
+      "language": "None",
+      "description": "Unified real-time search engine skill for AI agents.",
+      "discovered": "2026-06-25",
+      "discovered_via": "keyword:skill-engine",
+      "research_status": "pattern_done",
+      "updated": "2026-06-25",
+      "capsule_id": null
+    },
+    {
+      "name": "codecrafters-io/build-your-own-x",
+      "stars": 519680,
+      "language": "Markdown",
+      "description": "Master programming by recreating your favorite technologies",
+      "discovered": "2026-06-26",
+      "research_status": "pattern_done",
+      "updated": "2026-06-26",
+      "capsule_id": null
+    },
+    {
+      "name": "NVIDIA/RULER",
+      "stars": 1568,
+      "language": "Python",
+      "description": "This repo contains the source code for RULER: What’s the Real Context Size of Yo",
+      "discovered": "2026-06-28",
+      "discovered_via": "keyword:long-context",
+      "research_status": "pattern_done",
+      "updated": "2026-06-28",
+      "capsule_id": null
+    },
+    {
+      "name": "santifer/career-ops",
+      "stars": 58312,
+      "language": "JavaScript",
+      "description": "AI-powered job search system built on Claude Code. 14 skill modes, Go dashboard,",
+      "discovered": "2026-07-03",
+      "discovered_via": "keyword:claude-skill",
+      "research_status": "pattern_done",
+      "updated": "2026-07-03",
+      "capsule_id": null
     }
   ],
   "pending_research": []

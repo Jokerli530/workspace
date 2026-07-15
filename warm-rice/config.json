@@ -1,0 +1,30 @@
+{
+  "shop": {
+    "name": "温暖十里（恒昌一期店）",
+    "brand": "温暖十里",
+    "city": "喀什"
+  },
+  "platforms": {
+    "meituan": {
+      "loginUrl": "https://waimaie.meituan.com",
+      "homeUrl": "https://waimaie.meituan.com/",
+      "username": "",
+      "enabled": true
+    },
+    "eleme": {
+      "loginUrl": "https://login.kaidian.taobao.com/",
+      "username": "",
+      "enabled": false
+    }
+  },
+  "paths": {
+    "cookiesDir": "data/cookies",
+    "dailyDir": "data/daily",
+    "reportsDir": "data/reports",
+    "screenshotsDir": "data/screenshots"
+  },
+  "schedule": {
+    "autoRunHour": 22,
+    "autoRunMinute": 0
+  }
+}

@@ -1,0 +1,154 @@
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   AGENTS.md
+	modified:   MEMORY.md
+	modified:   barbaric-tracked.json
+	modified:   heartbeat-state.json
+	deleted:    memory/.dreams/short-term-recall.json
+	modified:   nova-mind/evolution-log.md
+	modified:   nova-mind/ledger-reviews/2026-W17.md
+	modified:   nova-mind/reflections/2026-04-24.md
+	modified:   skills-lock.json
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.agents/
+	Quant_A_Share/
+	RL_Quant_Trading/
+	akshare/
+	easyQuantify/
+	memory/.dreams/short-term-recall.json.migrated
+	memory/2026-04-24.md
+	memory/2026-06-09.md
+	memory/2026-06-12.md
+	mlruns/
+	nova-logs/
+	nova-mind/content-drafts/2026-04-24.md
+	nova-mind/content-drafts/2026-04-25.md
+	nova-mind/content-drafts/2026-04-26.md
+	nova-mind/content-drafts/2026-04-27.md
+	nova-mind/content-drafts/2026-04-28.md
+	nova-mind/content-drafts/2026-04-29.md
+	nova-mind/content-drafts/2026-04-30.md
+	nova-mind/content-drafts/2026-05-01.md
+	nova-mind/content-drafts/2026-05-03.md
+	nova-mind/content-drafts/2026-05-11.md
+	nova-mind/content-drafts/2026-05-17.md
+	nova-mind/content-drafts/2026-05-18.md
+	nova-mind/content-drafts/2026-05-19.md
+	nova-mind/content-drafts/2026-05-20.md
+	nova-mind/content-drafts/2026-05-21.md
+	nova-mind/content-drafts/2026-05-22.md
+	nova-mind/content-drafts/2026-05-23.md
+	nova-mind/content-drafts/2026-05-24.md
+	nova-mind/content-drafts/2026-05-25.md
+	nova-mind/content-drafts/2026-06-16.md
+	nova-mind/content-drafts/2026-06-17.md
+	nova-mind/ledger-reviews/2026-W18.md
+	nova-mind/ledger-reviews/2026-W19.md
+	nova-mind/ledger-reviews/2026-W20.md
+	nova-mind/ledger-reviews/2026-W21.md
+	nova-mind/ledger-reviews/2026-W22.md
+	nova-mind/ledger-reviews/2026-W23.md
+	nova-mind/ledger-reviews/2026-W24.md
+	nova-mind/openclaw-knowledge.md
+	nova-mind/reflections/2026-04-25.md
+	nova-mind/reflections/2026-04-26.md
+	nova-mind/reflections/2026-04-27.md
+	nova-mind/reflections/2026-04-28.md
+	nova-mind/reflections/2026-04-29.md
+	nova-mind/reflections/2026-04-30.md
+	nova-mind/reflections/2026-05-01.md
+	nova-mind/reflections/2026-05-02.md
+	nova-mind/reflections/2026-05-03.md
+	nova-mind/reflections/2026-05-04.md
+	nova-mind/reflections/2026-05-09.md
+	nova-mind/reflections/2026-05-10.md
+	nova-mind/reflections/2026-05-11.md
+	nova-mind/reflections/2026-05-12.md
+	nova-mind/reflections/2026-05-13.md
+	nova-mind/reflections/2026-05-14.md
+	nova-mind/reflections/2026-05-15.md
+	nova-mind/reflections/2026-05-16.md
+	nova-mind/reflections/2026-05-17.md
+	nova-mind/reflections/2026-05-18.md
+	nova-mind/reflections/2026-05-19.md
+	nova-mind/reflections/2026-05-20.md
+	nova-mind/reflections/2026-05-21.md
+	nova-mind/reflections/2026-05-22.md
+	nova-mind/reflections/2026-05-23.md
+	nova-mind/reflections/2026-05-24.md
+	nova-mind/reflections/2026-05-25.md
+	nova-mind/reflections/2026-05-27.md
+	nova-mind/reflections/2026-05-28.md
+	nova-mind/reflections/2026-05-29.md
+	nova-mind/reflections/2026-05-30.md
+	nova-mind/reflections/2026-05-31.md
+	nova-mind/reflections/2026-06-01.md
+	nova-mind/reflections/2026-06-02.md
+	nova-mind/reflections/2026-06-03.md
+	nova-mind/reflections/2026-06-04.md
+	nova-mind/reflections/2026-06-05.md
+	nova-mind/reflections/2026-06-06.md
+	nova-mind/reflections/2026-06-07.md
+	nova-mind/reflections/2026-06-08.md
+	nova-mind/reflections/2026-06-09.md
+	nova-mind/reflections/2026-06-10.md
+	nova-mind/reflections/2026-06-11.md
+	nova-mind/reflections/2026-06-12.md
+	nova-mind/reflections/2026-06-13.md
+	nova-mind/reflections/2026-06-14.md
+	nova-mind/reflections/2026-06-15.md
+	nova-mind/reflections/2026-06-16.md
+	nova-mind/reflections/2026-06-17.md
+	patterns/666ghj_MiroFish.md
+	patterns/ComposioHQ_awesome-claude-skills.md
+	patterns/D4Vinci_Scrapling.md
+	patterns/ECNU-ICALK_AutoSkill.md
+	patterns/Fosowl_agenticSeek.md
+	patterns/JuliusBrussee_caveman.md
+	patterns/NVIDIA_TensorRT-LLM.md
+	patterns/NVIDIA_kvpress.md
+	patterns/OthmanAdi_planning-with-files.md
+	patterns/SandAI-org_MagiAttention.md
+	patterns/SimoneAvogadro_android-reverse-engineering-skill.md
+	patterns/XMUDeepLIT_Awesome-Self-Evolving-Agents.md
+	patterns/affaan-m_ECC.md
+	patterns/agentic-in_elephant-agent.md
+	patterns/anthropics_claude-code.md
+	patterns/anysearch-ai_anysearch-skill.md
+	patterns/assafelovic_gpt-researcher.md
+	patterns/code-yeongyu_oh-my-openagent.md
+	patterns/deepset-ai_haystack.md
+	patterns/feifeibear_long-context-attention.md
+	patterns/forrestchang_andrej-karpathy-skills.md
+	patterns/garrytan_gstack.md
+	patterns/hesreallyhim_awesome-claude-code.md
+	patterns/katanemo_plano.md
+	patterns/labring_FastGPT.md
+	patterns/langchain-ai_deepagents.md
+	patterns/mattpocock_skills.md
+	patterns/mem0ai_mem0.md
+	patterns/nanocoai_nanoclaw.md
+	patterns/neuml_txtai.md
+	patterns/nexu-io_open-design.md
+	patterns/nilbuild_developer-roadmap.md
+	patterns/pingcap_tidb.md
+	patterns/public-apis_public-apis.md
+	patterns/qwibitai_nanoclaw.md
+	patterns/safishamsi_graphify.md
+	patterns/shareAI-lab_learn-claude-code.md
+	patterns/thedotmack_claude-mem.md
+	patterns/vibeeval_vibecosystem.md
+	patterns/x1xhlol_system-prompts-and-models-of-ai-tools.md
+	skills/nova-growth/scripts/evomap-study.sh
+	skills/serenity-aleabitoreddit
+	test_image.jpg
+	warm-rice/
+	watchlist.md
+
+no changes added to commit (use "git add" and/or "git commit -a")

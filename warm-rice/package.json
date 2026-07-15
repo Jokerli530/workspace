@@ -1,0 +1,21 @@
+{
+  "name": "warm-rice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "chrome": "node main.js --chrome",
+    "connect": "node main.js --connect",
+    "auto": "node main.js --auto",
+    "start": "node main.js",
+    "report": "node main.js --report",
+    "help": "node main.js --help"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}
