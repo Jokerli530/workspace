@@ -1,13 +1,13 @@
 # Task Queue
 
-*Last updated: 2026-06-20 10:44*
+*Last updated: 2026-07-16 18:14*
 
 ---
 
 ## 🔴 Ready
 
 ### Low Priority
-- [ ] 快照清理（定期）
+- [x] 快照清理（定期）— 7/16 已清理
 - [ ] MEMORY.md 整理去芜存菁
 - [ ] GitHub 调研循环（barbaric-growth）
 
