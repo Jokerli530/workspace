@@ -977,6 +977,17 @@
       "research_status": "pattern_done",
       "updated": "2026-07-03",
       "capsule_id": null
+    },
+    {
+      "name": "jihe520/social-push",
+      "stars": 491,
+      "language": "Shell",
+      "description": "🤖 AI social-media automation skill | Self-evolution workflows | AI 社交媒体自动化 skill",
+      "discovered": "2026-07-19",
+      "discovered_via": "keyword:self-evolution",
+      "research_status": "pattern_done",
+      "updated": "2026-07-19",
+      "capsule_id": null
     }
   ],
   "pending_research": []
