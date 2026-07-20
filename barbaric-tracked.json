@@ -988,6 +988,17 @@
       "research_status": "pattern_done",
       "updated": "2026-07-19",
       "capsule_id": null
+    },
+    {
+      "name": "rednote-machine-learning/RedKnot",
+      "stars": 1218,
+      "language": "Python",
+      "description": "Efficient Long-Context LLM Serving with Head-Aware KV Reuse and SegPagedAttentio",
+      "discovered": "2026-07-20",
+      "discovered_via": "keyword:long-context",
+      "research_status": "pattern_done",
+      "updated": "2026-07-20",
+      "capsule_id": null
     }
   ],
   "pending_research": []
