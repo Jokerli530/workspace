@@ -999,6 +999,28 @@
       "research_status": "pattern_done",
       "updated": "2026-07-20",
       "capsule_id": null
+    },
+    {
+      "name": "wk42worldworld/cybercode",
+      "stars": 375,
+      "language": "TypeScript",
+      "description": "整合 Claude Code 编程能力与 Hermes Agent 自进化能力的智能体 / An AI agent combining Claude Code",
+      "discovered": "2026-07-21",
+      "discovered_via": "keyword:self-evolution",
+      "research_status": "pattern_done",
+      "updated": "2026-07-21",
+      "capsule_id": null
+    },
+    {
+      "name": "Graphify-Labs/graphify",
+      "stars": 92333,
+      "language": "Python",
+      "description": "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryab",
+      "discovered": "2026-07-21",
+      "discovered_via": "keyword:openclaw",
+      "research_status": "pattern_done",
+      "updated": "2026-07-21",
+      "capsule_id": null
     }
   ],
   "pending_research": []
